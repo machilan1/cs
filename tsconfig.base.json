@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@cs/auth": ["apps/api/libs/auth/src/index.ts"],
+      "@cs/courses": ["apps/api/libs/courses/src/index.ts"],
+      "@cs/shared": ["apps/api/libs/shared/src/index.ts"],
+      "@cs/users": ["apps/api/libs/users/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
