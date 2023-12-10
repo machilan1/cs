@@ -59,6 +59,21 @@ export class UsersService {
 
     return res;
   }
+  async findOntByName(name: string): Promise<SelectUser> {
+    const [res] = await this.db
+      .select({
+        name: user.name,
+        userId: user.userId,
+        role: user.role,
+        email: user.email,
+        createdAt: user.createdAt,
+      })
+      .from(user)
+      .where(eq(user.name, name))
+      .limit(1);
+
+    return res;
+  }
 
   // Todo uncomment this later
   // update(id: number, updateUserDto: UpdateUserDto) {

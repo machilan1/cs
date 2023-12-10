@@ -26,14 +26,14 @@ export class AuthService {
   db = this.drizzleService.createDbClient();
 
   async signUp(signUpDto: InsertUser) {
-    const exists = await this.userService.findOntByEmail(signUpDto.email);
-
-    if (exists) {
+    const arr = await Promise.all([
+      this.userService.findOntByEmail(signUpDto.email),
+      this.userService.findOntByName(signUpDto.name),
+    ]);
+    if (arr.some((entry) => !entry)) {
       throw new Error('Registration failed');
     }
-
-    const d;
-
+    console.log(arr);
     const secret = this.encrypt(signUpDto.password);
 
     const newUser = { ...signUpDto, password: secret } satisfies LoginDto;
