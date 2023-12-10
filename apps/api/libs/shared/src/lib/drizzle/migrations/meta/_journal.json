@@ -1,0 +1,41 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1702193893690,
+      "tag": "0000_rainy_callisto",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1702197697599,
+      "tag": "0001_cool_rhodey",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1702197778223,
+      "tag": "0002_clever_saracen",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1702198351202,
+      "tag": "0003_greedy_sinister_six",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1702226585489,
+      "tag": "0004_acoustic_famine",
+      "breakpoints": true
+    }
+  ]
+}

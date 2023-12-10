@@ -1,3 +1,5 @@
-export interface LoginResponse {
-  jwt: string;
-}
+export type LoginResponse =
+  | {
+      jwt: string;
+    }
+  | Error;

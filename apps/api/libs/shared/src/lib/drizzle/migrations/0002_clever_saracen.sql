@@ -1,0 +1,1 @@
+ALTER TABLE "visitor" RENAME COLUMN "guest" TO "role";
