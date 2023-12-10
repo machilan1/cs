@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { LoginDto } from './models/dtos/login.dto';
-import { SignUpDto } from './models/dtos/sign-up.dto';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { LoginDto } from '../../dtos/login.dto';
+import { SignUpDto } from '../../dtos/sign-up.dto';
 import { LoginResponse } from './models/responses/login.response';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -9,11 +9,7 @@ import { DrizzleService, InsertUser } from '@cs/shared';
 import { user } from '@cs/shared';
 import { eq } from 'drizzle-orm';
 import { UsersService } from '@cs/users';
-import {
-  BAD_PAYLOAD,
-  LOGIN_FAIL,
-  USER_NOT_FOUND,
-} from './models/errors/error-msg';
+import { LOGIN_FAIL } from './models/errors/auth-error-msg';
 
 @Injectable()
 export class AuthService {
@@ -26,53 +22,55 @@ export class AuthService {
   db = this.drizzleService.createDbClient();
 
   async signUp(signUpDto: InsertUser) {
-    const arr = await Promise.all([
-      this.userService.findOntByEmail(signUpDto.email),
-      this.userService.findOntByName(signUpDto.name),
-    ]);
-    if (arr.some((entry) => !entry)) {
-      throw new Error('Registration failed');
+    try {
+      const [a, b] = await Promise.all([
+        this.userService.findOntByEmail(signUpDto.email),
+        this.userService.findOntByName(signUpDto.name),
+      ]);
+      if (a || b) {
+        throw new Error('註冊失敗');
+      }
+      const secret = this.encrypt(signUpDto.password);
+      const newUser = { ...signUpDto, password: secret } satisfies LoginDto;
+      return this.db.insert(user).values(newUser);
+    } catch (err) {
+      return new BadRequestException(err);
     }
-    console.log(arr);
-    const secret = this.encrypt(signUpDto.password);
-
-    const newUser = { ...signUpDto, password: secret } satisfies LoginDto;
-
-    return this.db.insert(user).values(newUser);
   }
 
   async login(loginDto: LoginDto): Promise<LoginResponse> {
-    const user = await this.userService.findOntByEmail(loginDto.email);
+    try {
+      const user = await this.userService.findOntByEmail(loginDto.email);
+      if (!user) {
+        throw new Error(LOGIN_FAIL);
+      }
 
-    if (!user) {
-      console.log(1);
-      throw new Error(USER_NOT_FOUND);
-    }
-    // ! This part is broken password are not encrypted properly.
-    const hash = await this.#getUserHash(user.userId);
-    if (!hash) {
-      console.log(2);
-      throw new Error(LOGIN_FAIL);
-    }
+      const hash = await this.#getUserHash(user.userId);
+      if (!hash) {
+        throw new Error(LOGIN_FAIL);
+      }
 
-    const matches = this.#checkPassword(loginDto.password, hash);
-    if (!matches) {
-      console.log(hash);
-      throw new Error(LOGIN_FAIL);
-    }
+      const matches = this.#checkPassword(loginDto.password, hash);
+      if (!matches) {
+        throw new Error(LOGIN_FAIL);
+      }
 
-    const jwt = await this.jwtService.signAsync(user);
-    if (!jwt) {
-      console.log(4);
-      throw new Error(LOGIN_FAIL);
-    }
+      const jwt = await this.jwtService.signAsync(user, {
+        privateKey: this.configService.get('JWT_SECRET'),
+      });
+      if (!jwt) {
+        throw new Error(LOGIN_FAIL);
+      }
 
-    return { jwt };
+      return { jwt };
+    } catch (err) {
+      return new BadRequestException(err);
+    }
   }
 
   // utilities
 
-  // Todo Get user hash by id
+  // Get user hash by id
   async #getUserHash(userId: number) {
     const [secret] = await this.db
       .select({ secret: user.password })
@@ -82,7 +80,7 @@ export class AuthService {
     return secret.secret;
   }
 
-  // Todo password encryptor
+  // password encryptor
   encrypt(password: string) {
     const hash = bcrypt.hashSync(
       password,
@@ -90,13 +88,13 @@ export class AuthService {
     );
     return hash;
   }
-  //  Todo password checker
+  //password checker
   #checkPassword(secret: string, hash: string): boolean {
     const res = bcrypt.compareSync(secret, hash);
     return res;
   }
 
-  // Todo jwt validator
+  // jwt validator
 
   async verifyJwt(token: string) {
     // Todo See what type this function return

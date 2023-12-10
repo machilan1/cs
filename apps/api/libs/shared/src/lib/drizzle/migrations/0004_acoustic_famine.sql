@@ -1,1 +1,3 @@
-ALTER TABLE "users" ALTER COLUMN "password" SET DATA TYPE varchar;
+ALTER TABLE "users"
+ALTER COLUMN "password"
+SET DATA TYPE varchar;

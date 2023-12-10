@@ -8,6 +8,6 @@ import { UsersModule, UsersService } from '@cs/users';
 @Module({
   controllers: [AuthController],
   providers: [AuthService, JwtService, DrizzleService, UsersService],
-  imports: [UsersModule, UsersModule],
+  imports: [UsersModule],
 })
 export class AuthModule {}
