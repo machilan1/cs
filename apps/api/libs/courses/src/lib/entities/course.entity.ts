@@ -2,6 +2,8 @@
 
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { User } from '@cs/users';
+import { SelectCategory } from '@cs/shared';
+import { CategoryEntity } from './category.entity';
 
 export class CourseEntity {
   @ApiProperty()
@@ -18,6 +20,9 @@ export class CourseEntity {
 
   @ApiProperty({ type: PickType(User, ['userId', 'name', 'email']) })
   teacher!: Partial<User>;
+
+  @ApiProperty({ type: CategoryEntity })
+  category!: SelectCategory;
 
   constructor(partial: Partial<CourseEntity>) {
     Object.assign(this, partial);

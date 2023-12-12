@@ -1,6 +1,7 @@
 import { IsNumber, IsString } from 'class-validator';
-import { ApiOperation, ApiProperty } from '@nestjs/swagger';
-export class CreateCourseDto {
+import { ApiProperty } from '@nestjs/swagger';
+import { InsertCategory } from '@cs/shared';
+export class CreateCourseDto implements InsertCategory {
   @ApiProperty({ type: String })
   @IsString()
   name!: string;
@@ -12,4 +13,8 @@ export class CreateCourseDto {
   @ApiProperty()
   @IsNumber()
   teacherId!: number;
+
+  @ApiProperty()
+  @IsNumber()
+  categoryId!: number;
 }

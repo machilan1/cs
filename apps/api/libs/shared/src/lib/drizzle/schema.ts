@@ -40,6 +40,9 @@ export const course = pgTable('course', {
   teacherId: integer('teacher_id')
     .references(() => user.userId)
     .notNull(),
+  categoryId: integer('categoryId')
+    .references(() => category.categoryId)
+    .notNull(),
 });
 
 export const courseRelations = relations(course, ({ one }) => ({
@@ -51,6 +54,16 @@ export const courseRelations = relations(course, ({ one }) => ({
 
 export type SelectCourse = InferSelectModel<typeof course>;
 export type InsertCourse = InferInsertModel<typeof course>;
+
+export const category = pgTable('category', {
+  categoryId: bigserial('category_id', { mode: 'number' })
+    .primaryKey()
+    .notNull(),
+  name: varchar('name', { length: 45 }).notNull(),
+});
+
+export type SelectCategory = InferSelectModel<typeof category>;
+export type InsertCategory = InferInsertModel<typeof category>;
 
 export const enroll = pgTable('enroll', {
   enrollTime: timestamp('enroll_time', { withTimezone: true })

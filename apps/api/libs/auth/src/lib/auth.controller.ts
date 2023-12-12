@@ -15,17 +15,16 @@ import { LoginResponse } from './models/responses/login.response';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  // todo finish this later
+  @Post('register')
   @ApiOperation({ operationId: 'register' })
   @ApiCreatedResponse({ description: 'Registered' })
-  @Post('register')
   async signUp(@Body() signUpDto: SignUpDto) {
     return this.authService.signUp(signUpDto);
   }
 
+  @Post('login')
   @ApiOperation({ operationId: 'login' })
   @ApiOkResponse({ type: LoginResponse })
-  @Post('login')
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
