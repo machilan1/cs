@@ -1,8 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCourseDto } from '../../dto/create-course.dto';
-import { UpdateCourseDto } from '../../dto/update-course.dto';
-import { DrizzleService, InsertCourse, course } from '@cs/shared';
+import { UpdateCourseDto } from './dto/update-course.dto';
+import {
+  DrizzleService,
+  InsertCourse,
+  SelectCourse,
+  course,
+  user,
+} from '@cs/shared';
 import { eq } from 'drizzle-orm';
+import { CourseEntity } from './entities/course.entity';
 
 @Injectable()
 export class CoursesService {
@@ -10,26 +16,72 @@ export class CoursesService {
 
   db = this.drizzleService.createDbClient();
 
-  create(createCourseDto: InsertCourse) {
-    return this.db.insert(course).values(createCourseDto);
+  async create(createCourseDto: InsertCourse): Promise<SelectCourse[]> {
+    const res = await this.db
+      .insert(course)
+      .values(createCourseDto)
+      .returning();
+
+    return res;
   }
 
-  findAll() {
-    return this.db.select().from(course);
+  async findAll(): Promise<CourseEntity[]> {
+    const res = await this.db
+      .select({
+        courseId: course.courseId,
+        name: course.name,
+        description: course.description,
+        createdAt: course.createdAt,
+        teacher: { userId: user.userId, name: user.name, email: user.email },
+      })
+      .from(course)
+      .leftJoin(user, eq(course.teacherId, user.userId));
+
+    return res.map(
+      (course) => new CourseEntity({ ...course, teacher: course.teacher! })
+    );
   }
 
-  findOne(courseId: number) {
-    return this.db.select().from(course).where(eq(course.courseId, courseId));
+  async findOne(courseId: number) {
+    const res = await this.db
+      .select({
+        courseId: course.courseId,
+        name: course.name,
+        description: course.description,
+        createdAt: course.createdAt,
+        teacher: { userId: user.userId, name: user.name, email: user.email },
+      })
+      .from(course)
+      .where(eq(course.courseId, courseId))
+      .leftJoin(user, eq(course.teacherId, user.userId));
+
+    return res.map(
+      (course) => new CourseEntity({ ...course, teacher: course.teacher! })
+    );
   }
 
-  update(courseId: number, updateCourseDto: UpdateCourseDto) {
-    return this.db
+  async update(
+    courseId: number,
+    updateCourseDto: UpdateCourseDto
+  ): Promise<SelectCourse[]> {
+    const res = await this.db
       .update(course)
       .set({ ...updateCourseDto })
-      .where(eq(course.courseId, courseId));
+      .where(eq(course.courseId, courseId))
+      .returning();
+    console.log(res);
+
+    return res;
   }
 
-  remove(courseId: number) {
-    return this.db.delete(course).where(eq(course.courseId, courseId));
+  async remove(courseId: number): Promise<SelectCourse[]> {
+    const res = await this.db
+      .delete(course)
+      .where(eq(course.courseId, courseId))
+      .returning();
+
+    console.log(res);
+
+    return res;
   }
 }

@@ -23,6 +23,10 @@ export const user = pgTable('users', {
     .notNull(),
 });
 
+export const usersRelations = relations(user, ({ many }) => ({
+  course: many(course),
+}));
+
 export type SelectUser = Omit<InferSelectModel<typeof user>, 'password'>;
 export type InsertUser = InferInsertModel<typeof user>;
 
@@ -37,6 +41,13 @@ export const course = pgTable('course', {
     .references(() => user.userId)
     .notNull(),
 });
+
+export const courseRelations = relations(course, ({ one }) => ({
+  teacher: one(user, {
+    fields: [course.teacherId],
+    references: [user.userId],
+  }),
+}));
 
 export type SelectCourse = InferSelectModel<typeof course>;
 export type InsertCourse = InferInsertModel<typeof course>;
