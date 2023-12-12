@@ -1,4 +1,4 @@
-import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
 import {
   bigserial,
   integer,
@@ -7,6 +7,8 @@ import {
   timestamp,
   varchar,
 } from 'drizzle-orm/pg-core';
+
+import { Type } from 'class-transformer';
 
 export const roleEnum = pgEnum('role', ['guest', 'student', 'teacher']);
 
@@ -36,8 +38,8 @@ export const course = pgTable('course', {
     .notNull(),
 });
 
-type SelectCourse = InferSelectModel<typeof course>;
-type InsertCourse = InferInsertModel<typeof course>;
+export type SelectCourse = InferSelectModel<typeof course>;
+export type InsertCourse = InferInsertModel<typeof course>;
 
 export const enroll = pgTable('enroll', {
   enrollTime: timestamp('enroll_time', { withTimezone: true })

@@ -1,6 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { Injectable } from '@nestjs/common';
+import * as schema from './schema';
 
 @Injectable()
 export class DrizzleService {
@@ -11,7 +12,7 @@ export class DrizzleService {
     const queryClient = postgres(
       conn ?? 'postgres://postgres:123456@localhost:5433/db'
     );
-    return drizzle(queryClient, { logger: true });
+    return drizzle(queryClient, { logger: true, schema });
   }
 
   private assertConnectionStringIsProvided(conn: string | undefined) {

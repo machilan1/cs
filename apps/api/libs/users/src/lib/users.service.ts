@@ -16,7 +16,7 @@ export class UsersService {
   }
 
   async findAll(): Promise<SelectUser[]> {
-    const res = await this.db
+    return this.db
       .select({
         name: user.name,
         userId: user.userId,
@@ -25,7 +25,6 @@ export class UsersService {
         createdAt: user.createdAt,
       })
       .from(user);
-    return res;
   }
 
   async findOne(userId: number): Promise<SelectUser> {
@@ -76,11 +75,14 @@ export class UsersService {
   }
 
   // Todo uncomment this later
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
+  update(userId: number, updateUserDto: UpdateUserDto) {
+    return this.db
+      .update(user)
+      .set(updateUserDto)
+      .where(eq(user.userId, userId));
+  }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
+  remove(userId: number) {
+    return this.db.delete(user).where(eq(user.userId, userId));
+  }
 }

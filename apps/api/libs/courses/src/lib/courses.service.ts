@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCourseDto } from '../../dto/create-course.dto';
 import { UpdateCourseDto } from '../../dto/update-course.dto';
+import { DrizzleService, InsertCourse, course } from '@cs/shared';
+import { eq } from 'drizzle-orm';
 
 @Injectable()
 export class CoursesService {
-  create(createCourseDto: CreateCourseDto) {
-    return 'This action adds a new course';
+  constructor(private drizzleService: DrizzleService) {}
+
+  db = this.drizzleService.createDbClient();
+
+  create(createCourseDto: InsertCourse) {
+    return this.db.insert(course).values(createCourseDto);
   }
 
   findAll() {
-    return `This action returns all courses`;
+    return this.db.select().from(course);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} course`;
+  findOne(courseId: number) {
+    return this.db.select().from(course).where(eq(course.courseId, courseId));
   }
 
-  update(id: number, updateCourseDto: UpdateCourseDto) {
-    return `This action updates a #${id} course`;
+  update(courseId: number, updateCourseDto: UpdateCourseDto) {
+    return this.db
+      .update(course)
+      .set({ ...updateCourseDto })
+      .where(eq(course.courseId, courseId));
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} course`;
+  remove(courseId: number) {
+    return this.db.delete(course).where(eq(course.courseId, courseId));
   }
 }
