@@ -2,7 +2,9 @@ import { InsertVideo } from '@cs/shared';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
 
-export class CreateVideoDto implements Partial<InsertVideo> {
+export class CreateVideoDto
+  implements Omit<InsertVideo, 'createdAt' | 'videoId'>
+{
   @ApiProperty({ type: String })
   @IsString()
   fileLink!: string;

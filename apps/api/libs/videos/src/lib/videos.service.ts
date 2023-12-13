@@ -1,11 +1,17 @@
 import { PG_CONNECTION } from '@cs/shared';
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  BadGatewayException,
+  BadRequestException,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import * as schema from '@cs/shared';
 import { SelectVideo } from '@cs/shared';
 import { eq } from 'drizzle-orm';
 import { CreateVideoDto } from './dtos/create-video.dto';
 import { UpdateVideoDto } from './dtos/update-video.dto';
+import { ApiConflictResponse } from '@nestjs/swagger';
 
 @Injectable()
 export class VideosService {
@@ -14,11 +20,15 @@ export class VideosService {
   ) {}
 
   async create(createVideoDto: CreateVideoDto): Promise<SelectVideo[]> {
-    const res = await this.conn
-      .insert(schema.video)
-      .values(createVideoDto)
-      .returning();
-    return res;
+    try {
+      const res = await this.conn
+        .insert(schema.video)
+        .values(createVideoDto)
+        .returning();
+      return res;
+    } catch (err) {
+      throw new BadRequestException();
+    }
   }
 
   async findAll(): Promise<SelectVideo[]> {

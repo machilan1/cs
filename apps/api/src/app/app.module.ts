@@ -10,6 +10,7 @@ import { CoursesModule } from '@cs/courses';
 import { FileModule } from '@cs/file';
 import { join } from 'path';
 import { CategoryModule } from '@cs/category';
+import { VideosModule } from '@cs/videos';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CategoryModule } from '@cs/category';
     AuthModule,
     CoursesModule,
     CategoryModule,
+    VideosModule,
     FileModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, 'upload'),
