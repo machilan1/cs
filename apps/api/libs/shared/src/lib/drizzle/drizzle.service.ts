@@ -1,11 +1,17 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
+import { PostgresJsDatabase, drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { Injectable } from '@nestjs/common';
 import * as schema from './schema';
 
 @Injectable()
 export class DrizzleService {
+  db!: PostgresJsDatabase<typeof schema>;
+
   createDbClient() {
+    if (this.db) {
+      return this.db;
+    }
+
     const conn = process.env['DB_URL'];
     console.log({ conn });
     this.assertConnectionStringIsProvided(conn);

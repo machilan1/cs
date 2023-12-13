@@ -23,6 +23,12 @@ export class User implements SelectUser {
   @ApiProperty({ type: Date })
   createdAt!: Date;
 
+  @ApiProperty({ type: String })
+  password!: string;
+
+  @ApiProperty({ type: String })
+  avatar!: string;
+
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);
   }

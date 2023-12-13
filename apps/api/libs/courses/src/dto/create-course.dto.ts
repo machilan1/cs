@@ -10,11 +10,15 @@ export class CreateCourseDto implements InsertCategory {
   @IsString()
   description!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: Number })
   @IsNumber()
   teacherId!: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: Number })
   @IsNumber()
   categoryId!: number;
+
+  @ApiProperty({ type: Number })
+  @IsString()
+  thumbnail!: string;
 }

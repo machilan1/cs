@@ -11,7 +11,14 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  OmitType,
+  PickType,
+} from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 
 @ApiTags('users')
@@ -22,39 +29,44 @@ export class UsersController {
   // Todo Return object on create
   @ApiOperation({ operationId: 'createUser' })
   @ApiBody({ type: CreateUserDto })
+  @ApiOkResponse({ type: [OmitType(User, ['password'] as const)] })
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
-  @ApiOperation({ operationId: 'getUsers' })
-  @ApiOkResponse({ type: [User] })
+
   @Get()
+  @ApiOperation({ operationId: 'getUsers' })
+  @ApiOkResponse({ type: [OmitType(User, ['password'] as const)] })
   findAll() {
     return this.usersService.findAll();
   }
 
-  @ApiOperation({ operationId: 'getUserById' })
-  @ApiOkResponse({ type: User })
   @Get(':id')
+  @ApiOperation({ operationId: 'getUserById' })
+  @ApiOkResponse({ type: [OmitType(User, ['password'] as const)] })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findOne(id);
   }
 
-  @ApiOperation({ operationId: 'updateUser' })
-  @ApiBody({ type: UpdateUserDto })
-  @ApiOkResponse({ description: 'Updated' })
   @Patch(':id')
+  @ApiOperation({ operationId: 'updateUser' })
+  @ApiBody({
+    type: PickType(UpdateUserDto, ['email', 'name', 'role'] as const),
+  })
+  @ApiOkResponse({ type: [OmitType(User, ['password'] as const)] })
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: UpdateUserDto
+    @Body()
+    updateUserDto: Omit<UpdateUserDto, 'password' | 'userId' | 'createdAt'>
   ) {
     return this.usersService.update(id, updateUserDto);
   }
 
-  @ApiOperation({ operationId: 'deleteUser' })
-  @ApiOkResponse({ description: 'Deleted' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @ApiOperation({ operationId: 'deleteUser' })
+  @ApiOkResponse({ type: [OmitType(User, ['password'] as const)] })
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.remove(id);
   }
 }

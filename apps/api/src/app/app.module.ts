@@ -9,6 +9,7 @@ import { AuthModule } from '@cs/auth';
 import { CoursesModule } from '@cs/courses';
 import { FileModule } from '@cs/file';
 import { join } from 'path';
+import { CategoryModule } from '@cs/category';
 
 @Module({
   imports: [
@@ -16,8 +17,8 @@ import { join } from 'path';
     UsersModule,
     AuthModule,
     CoursesModule,
+    CategoryModule,
     FileModule,
-
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, 'upload'),
     }),
@@ -25,8 +26,9 @@ import { join } from 'path';
   controllers: [],
   providers: [
     AppService,
-    DrizzleService,
     { provide: APP_PIPE, useClass: ValidationPipe },
+    { provide: 'drizzle', useClass: DrizzleService },
   ],
+  exports: ['drizzle'],
 })
 export class AppModule {}

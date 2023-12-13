@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateCourseDto } from './dto/update-course.dto';
+import { UpdateCourseDto } from '../dto/update-course.dto';
 import {
   DrizzleService,
   InsertCourse,
@@ -8,7 +8,7 @@ import {
   user,
 } from '@cs/shared';
 import { eq } from 'drizzle-orm';
-import { CourseEntity } from './entities/course.entity';
+import { CourseEntity } from '../entities/course.entity';
 
 @Injectable()
 export class CoursesService {

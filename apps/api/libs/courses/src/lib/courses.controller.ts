@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { CoursesService } from './courses.service';
-import { CreateCourseDto } from './dto/create-course.dto';
-import { UpdateCourseDto } from './dto/update-course.dto';
+import { CreateCourseDto } from '../dto/create-course.dto';
+import { UpdateCourseDto } from '../dto/update-course.dto';
 import { ParseIntPipe } from '@nestjs/common';
 import {
   ApiBody,
@@ -18,7 +18,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { CourseEntity } from './entities/course.entity';
+import { CourseEntity } from '../entities/course.entity';
 
 @ApiTags('courses')
 @Controller('courses')

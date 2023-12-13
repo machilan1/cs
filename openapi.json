@@ -17,8 +17,18 @@
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OmitTypeClass"
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -37,7 +47,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/OmitTypeClass"
                   }
                 }
               }
@@ -69,7 +79,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OmitTypeClass"
+                  }
                 }
               }
             }
@@ -97,14 +110,24 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserDto"
+                "$ref": "#/components/schemas/PickTypeClass"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Updated"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OmitTypeClass"
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -120,13 +143,23 @@
             "required": true,
             "in": "path",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Deleted"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OmitTypeClass"
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -324,6 +357,136 @@
         ]
       }
     },
+    "/category": {
+      "post": {
+        "operationId": "CategoryController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "category"
+        ]
+      },
+      "get": {
+        "operationId": "CategoryController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/category/{id}": {
+      "patch": {
+        "operationId": "CategoryController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "category"
+        ]
+      },
+      "delete": {
+        "operationId": "CategoryController_delete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "category"
+        ]
+      }
+    },
     "/file/upload": {
       "post": {
         "operationId": "FileController_uploadFile",
@@ -365,7 +528,7 @@
           "password"
         ]
       },
-      "User": {
+      "OmitTypeClass": {
         "type": "object",
         "properties": {
           "userId": {
@@ -387,6 +550,9 @@
           },
           "createdAt": {
             "format": "date-time",
+            "type": "string"
+          },
+          "avatar": {
             "type": "string"
           }
         },
@@ -395,15 +561,13 @@
           "role",
           "name",
           "email",
-          "createdAt"
+          "createdAt",
+          "avatar"
         ]
       },
-      "UpdateUserDto": {
+      "PickTypeClass": {
         "type": "object",
         "properties": {
-          "userId": {
-            "type": "number"
-          },
           "role": {
             "type": "string",
             "enum": [
@@ -416,10 +580,6 @@
             "type": "string"
           },
           "email": {
-            "type": "string"
-          },
-          "createdAt": {
-            "format": "date-time",
             "type": "string"
           }
         }
@@ -480,31 +640,35 @@
           },
           "teacherId": {
             "type": "number"
+          },
+          "categoryId": {
+            "type": "number"
+          },
+          "thumbnail": {
+            "type": "number"
           }
         },
         "required": [
           "name",
           "description",
-          "teacherId"
+          "teacherId",
+          "categoryId",
+          "thumbnail"
         ]
       },
-      "PickTypeClass": {
+      "CategoryEntity": {
         "type": "object",
         "properties": {
-          "userId": {
+          "categoryId": {
             "type": "number"
           },
           "name": {
             "type": "string"
-          },
-          "email": {
-            "type": "string"
           }
         },
         "required": [
-          "userId",
-          "name",
-          "email"
+          "categoryId",
+          "name"
         ]
       },
       "CourseEntity": {
@@ -525,6 +689,9 @@
           },
           "teacher": {
             "$ref": "#/components/schemas/PickTypeClass"
+          },
+          "category": {
+            "$ref": "#/components/schemas/CategoryEntity"
           }
         },
         "required": [
@@ -532,7 +699,8 @@
           "courseId",
           "name",
           "description",
-          "teacher"
+          "teacher",
+          "category"
         ]
       },
       "UpdateCourseDto": {
@@ -546,8 +714,51 @@
           },
           "teacherId": {
             "type": "number"
+          },
+          "categoryId": {
+            "type": "number"
+          },
+          "thumbnail": {
+            "type": "number"
           }
         }
+      },
+      "CreateCategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "categoryId",
+          "name"
+        ]
+      },
+      "UpdateCategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
       }
     }
   }

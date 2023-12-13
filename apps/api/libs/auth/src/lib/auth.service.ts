@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { LoginDto } from './dtos/login.dto';
-import { SignUpDto } from './dtos/sign-up.dto';
 import { LoginResponse } from './models/responses/login.response';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -40,7 +39,7 @@ export class AuthService {
 
   async login(loginDto: LoginDto): Promise<LoginResponse | Error> {
     try {
-      const user = await this.userService.findOntByEmail(loginDto.email);
+      const [user] = await this.userService.findOntByEmail(loginDto.email);
       if (!user) {
         throw new Error(LOGIN_FAIL);
       }

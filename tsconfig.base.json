@@ -16,10 +16,12 @@
     "baseUrl": ".",
     "paths": {
       "@cs/auth": ["apps/api/libs/auth/src/index.ts"],
+      "@cs/category": ["apps/api/libs/category/src/index.ts"],
       "@cs/courses": ["apps/api/libs/courses/src/index.ts"],
       "@cs/file": ["apps/api/libs/shared/src/lib/file/src/index.ts"],
       "@cs/shared": ["apps/api/libs/shared/src/index.ts"],
-      "@cs/users": ["apps/api/libs/users/src/index.ts"]
+      "@cs/users": ["apps/api/libs/users/src/index.ts"],
+      "@cs/videos": ["apps/api/libs/videos/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

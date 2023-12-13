@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DrizzleService, InsertUser, SelectUser, user } from '@cs/shared';
@@ -11,78 +11,86 @@ export class UsersService {
 
   db = this.drizzleService.createDbClient();
 
-  create(userData: InsertUser) {
-    return this.db.insert(user).values(userData);
+  async create(userData: InsertUser): Promise<Omit<SelectUser, 'password'>[]> {
+    const res = await this.db.insert(user).values(userData).returning();
+
+    return res.map((user) => {
+      const { password, ...rest } = user;
+      return rest;
+    });
   }
 
-  async findAll(): Promise<SelectUser[]> {
-    return this.db
-      .select({
-        name: user.name,
-        userId: user.userId,
-        role: user.role,
-        email: user.email,
-        createdAt: user.createdAt,
-      })
-      .from(user);
+  async findAll(): Promise<Omit<SelectUser, 'password'>[]> {
+    const res = await this.db.select().from(user);
+
+    return res.map((user) => {
+      const { password, ...rest } = user;
+      return rest;
+    });
   }
 
-  async findOne(userId: number): Promise<SelectUser> {
-    const [res] = await this.db
-      .select({
-        name: user.name,
-        userId: user.userId,
-        role: user.role,
-        email: user.email,
-        createdAt: user.createdAt,
-      })
+  async findOne(userId: number): Promise<Omit<SelectUser, 'password'>[]> {
+    const res = await this.db
+      .select()
       .from(user)
       .where(eq(user.userId, userId))
       .limit(1);
 
-    return res;
+    return res.map((user) => {
+      const { password, ...rest } = user;
+      return rest;
+    });
   }
 
-  async findOntByEmail(email: string): Promise<SelectUser> {
-    const [res] = await this.db
-      .select({
-        name: user.name,
-        userId: user.userId,
-        role: user.role,
-        email: user.email,
-        createdAt: user.createdAt,
-      })
+  async findOntByEmail(email: string): Promise<Omit<SelectUser, 'password'>[]> {
+    const res = await this.db
+      .select()
       .from(user)
       .where(eq(user.email, email))
       .limit(1);
 
-    return res;
+    return res.map((user) => {
+      const { password, ...rest } = user;
+      return rest;
+    });
   }
-  async findOntByName(name: string): Promise<SelectUser> {
-    const [res] = await this.db
-      .select({
-        name: user.name,
-        userId: user.userId,
-        role: user.role,
-        email: user.email,
-        createdAt: user.createdAt,
-      })
+
+  async findOntByName(name: string): Promise<Omit<SelectUser, 'password'>[]> {
+    const res = await this.db
+      .select()
       .from(user)
       .where(eq(user.name, name))
       .limit(1);
 
-    return res;
+    return res.map((user) => {
+      const { password, ...rest } = user;
+      return rest;
+    });
   }
 
-  // Todo uncomment this later
-  update(userId: number, updateUserDto: UpdateUserDto) {
-    return this.db
+  async update(
+    userId: number,
+    updateUserDto: UpdateUserDto
+  ): Promise<Omit<SelectUser, 'password'>[]> {
+    const res = await this.db
       .update(user)
       .set(updateUserDto)
-      .where(eq(user.userId, userId));
+      .where(eq(user.userId, userId))
+      .returning();
+    return res.map((user) => {
+      const { password, ...rest } = user;
+      return rest;
+    });
   }
 
-  remove(userId: number) {
-    return this.db.delete(user).where(eq(user.userId, userId));
+  async remove(userId: number) {
+    const res = await this.db
+      .delete(user)
+      .where(eq(user.userId, userId))
+      .returning();
+    return res.map((user) => {
+      const { password, ...rest } = user;
+      return rest;
+    });
   }
 }

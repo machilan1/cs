@@ -8,8 +8,6 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
-import { Type } from 'class-transformer';
-
 export const roleEnum = pgEnum('role', ['guest', 'student', 'teacher']);
 
 export const user = pgTable('users', {
@@ -17,23 +15,21 @@ export const user = pgTable('users', {
   role: roleEnum('role').default('guest').notNull(),
   name: varchar('name', { length: 45 }).notNull().unique(),
   email: varchar('email', { length: 45 }).notNull().unique(),
+  avatar: varchar('avatar', { length: 255 }),
   password: varchar('password').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),
 });
 
-export const usersRelations = relations(user, ({ many }) => ({
-  course: many(course),
-}));
-
-export type SelectUser = Omit<InferSelectModel<typeof user>, 'password'>;
+export type SelectUser = InferSelectModel<typeof user>;
 export type InsertUser = InferInsertModel<typeof user>;
 
 export const course = pgTable('course', {
   courseId: bigserial('course_id', { mode: 'number' }).primaryKey().notNull(),
   name: varchar('name', { length: 45 }).notNull(),
   description: varchar('description', { length: 255 }).notNull(),
+  thumbnail: varchar('thumbnail', { length: 255 }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),
@@ -44,13 +40,6 @@ export const course = pgTable('course', {
     .references(() => category.categoryId)
     .notNull(),
 });
-
-export const courseRelations = relations(course, ({ one }) => ({
-  teacher: one(user, {
-    fields: [course.teacherId],
-    references: [user.userId],
-  }),
-}));
 
 export type SelectCourse = InferSelectModel<typeof course>;
 export type InsertCourse = InferInsertModel<typeof course>;
@@ -86,11 +75,15 @@ export const video = pgTable('video', {
   name: varchar('name', { length: 45 }).notNull(),
   length: varchar('length', { length: 45 }).notNull(),
   description: varchar('description', { length: 255 }).notNull(),
+  fileLink: varchar('file_link', { length: 255 }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),
   courseId: integer('course_id').references(() => course.courseId),
 });
+
+export type SelectVideo = InferSelectModel<typeof video>;
+export type InsertVideo = InferInsertModel<typeof video>;
 
 export const viewRecord = pgTable('view_record', {
   created_at: timestamp('created_at', { withTimezone: true })
