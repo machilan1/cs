@@ -1,6 +1,7 @@
 import { SelectVideo } from '@cs/shared';
 
-export class Video implements SelectVideo {
+export class Video implements Partial<SelectVideo> {
+  fileLink!: string;
   videoId!: number;
   name!: string;
   length!: string;

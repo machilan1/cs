@@ -22,35 +22,31 @@ export class VideosService {
   }
 
   async findAll(): Promise<SelectVideo[]> {
-    const res = await this.conn.select().from(schema.video);
-    return res;
+    return this.conn.select().from(schema.video);
   }
 
   async findOne(videoId: number) {
-    const res = await this.conn
+    return this.conn
       .select()
       .from(schema.video)
       .where(eq(schema.video, videoId));
-    return res;
   }
 
   async update(
     videoId: number,
     updateVideoDto: UpdateVideoDto
   ): Promise<SelectVideo[]> {
-    const res = await this.conn
+    return this.conn
       .update(schema.video)
       .set(updateVideoDto)
       .where(eq(schema.video.videoId, videoId))
       .returning();
-    return res;
   }
 
   async delete(videoId: number): Promise<SelectVideo[]> {
-    const res = await this.conn
+    return this.conn
       .delete(schema.video)
       .where(eq(schema.video.videoId, videoId))
       .returning();
-    return res;
   }
 }

@@ -1,0 +1,1 @@
+ALTER TABLE "video" ALTER COLUMN "course_id" SET NOT NULL;

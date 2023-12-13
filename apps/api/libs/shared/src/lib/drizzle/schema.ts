@@ -1,4 +1,4 @@
-import { InferInsertModel, InferSelectModel, relations } from 'drizzle-orm';
+import { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import {
   bigserial,
   integer,
@@ -79,7 +79,9 @@ export const video = pgTable('video', {
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),
-  courseId: integer('course_id').references(() => course.courseId),
+  courseId: integer('course_id')
+    .references(() => course.courseId)
+    .notNull(),
 });
 
 export type SelectVideo = InferSelectModel<typeof video>;
