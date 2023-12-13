@@ -1,6 +1,424 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/auth/register": {
+      "post": {
+        "operationId": "register",
+        "summary": "",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Registered"
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "login",
+        "summary": "",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/category": {
+      "post": {
+        "operationId": "CategoryController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "category"
+        ]
+      },
+      "get": {
+        "operationId": "CategoryController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/category/{id}": {
+      "patch": {
+        "operationId": "CategoryController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "category"
+        ]
+      },
+      "delete": {
+        "operationId": "CategoryController_delete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/category/{id}/courses": {
+      "get": {
+        "operationId": "getCoursesByCategoryId",
+        "summary": "讀取單一分類底下的所有課程",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/courses": {
+      "post": {
+        "operationId": "createCourse",
+        "summary": "",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCourseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Course"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "courses"
+        ]
+      },
+      "get": {
+        "operationId": "getCourses",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseWithCategoryTeacher"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "courses"
+        ]
+      }
+    },
+    "/courses/{id}": {
+      "get": {
+        "operationId": "getCourseById",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseWithCategoryTeacher"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "courses"
+        ]
+      },
+      "patch": {
+        "operationId": "updateCourse",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCourseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Course"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "courses"
+        ]
+      },
+      "delete": {
+        "operationId": "deleteCourse",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Course"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "courses"
+        ]
+      }
+    },
+    "/courses/{id}/videos": {
+      "get": {
+        "operationId": "getVideosForCourse",
+        "summary": "讀取跟一堂課程相關的影片",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Video"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "courses"
+        ]
+      }
+    },
     "/users": {
       "post": {
         "operationId": "createUser",
@@ -167,91 +585,20 @@
         ]
       }
     },
-    "/auth/register": {
-      "post": {
-        "operationId": "register",
-        "summary": "",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SignUpDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Registered"
-          }
-        },
-        "tags": [
-          "auth"
-        ]
-      }
-    },
-    "/auth/login": {
-      "post": {
-        "operationId": "login",
-        "summary": "",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "auth"
-        ]
-      }
-    },
-    "/courses": {
-      "post": {
-        "operationId": "createCourse",
-        "summary": "",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCourseDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Created"
-          }
-        },
-        "tags": [
-          "courses"
-        ]
-      },
+    "/users/{id}/viewedVideos": {
       "get": {
-        "operationId": "getCourses",
-        "summary": "",
-        "parameters": [],
+        "operationId": "getViewedVideosByUserId",
+        "summary": "獲取一個用戶已經看過的影片",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -260,7 +607,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CourseEntity"
+                    "$ref": "#/components/schemas/UserVideo"
                   }
                 }
               }
@@ -268,14 +615,14 @@
           }
         },
         "tags": [
-          "courses"
+          "users"
         ]
       }
     },
-    "/courses/{id}": {
+    "/users/{id}/favorites": {
       "get": {
-        "operationId": "getCourseById",
-        "summary": "",
+        "operationId": "getFavoritesByUserId",
+        "summary": "獲取一個用戶收藏的影片",
         "parameters": [
           {
             "name": "id",
@@ -292,19 +639,24 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CourseEntity"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserVideo"
+                  }
                 }
               }
             }
           }
         },
         "tags": [
-          "courses"
+          "users"
         ]
-      },
-      "patch": {
-        "operationId": "updateCourse",
-        "summary": "",
+      }
+    },
+    "/users/{id}/ownVideos": {
+      "get": {
+        "operationId": "getOwnVideosByUserId",
+        "summary": "讀取一個老師擁有的影片",
         "parameters": [
           {
             "name": "id",
@@ -315,176 +667,103 @@
             }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCourseDto"
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserVideo"
+                  }
+                }
               }
             }
           }
         },
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/{id}/teachingCourses": {
+      "get": {
+        "operationId": "getTeachingCoursesByUserId",
+        "summary": "讀取一個老師任教的課程",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserCourse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/{id}/playlist": {
+      "get": {
+        "operationId": "getPlaylistForUser",
+        "summary": "讀取一個用戶的播放清單",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserCourse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/file/upload": {
+      "post": {
+        "operationId": "FileController_uploadFile",
+        "parameters": [],
+        "responses": {
+          "201": {
             "description": ""
           }
-        },
-        "tags": [
-          "courses"
-        ]
-      },
-      "delete": {
-        "operationId": "deleteCourse",
-        "summary": "",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Deleted"
-          }
-        },
-        "tags": [
-          "courses"
-        ]
-      }
-    },
-    "/category": {
-      "post": {
-        "operationId": "CategoryController_create",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCategoryDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Category"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "category"
-        ]
-      },
-      "get": {
-        "operationId": "CategoryController_get",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Category"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "category"
-        ]
-      }
-    },
-    "/category/{id}": {
-      "patch": {
-        "operationId": "CategoryController_update",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCategoryDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Category"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "category"
-        ]
-      },
-      "delete": {
-        "operationId": "CategoryController_delete",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Category"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "category"
-        ]
+        }
       }
     },
     "/videos": {
@@ -611,15 +890,398 @@
         ]
       }
     },
-    "/file/upload": {
+    "/videos/{id}/students": {
       "post": {
-        "operationId": "FileController_uploadFile",
+        "operationId": "VideosController_getStudentsByVideoId",
+        "summary": "讀取所有看過特定一支影片的學生",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "videos"
+        ]
+      }
+    },
+    "/view-record": {
+      "post": {
+        "operationId": "ViewRecordController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateViewRecordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ViewRecord"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "view-record"
+        ]
+      },
+      "get": {
+        "operationId": "ViewRecordController_getAll",
         "parameters": [],
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ViewRecord"
+                  }
+                }
+              }
+            }
           }
-        }
+        },
+        "tags": [
+          "view-record"
+        ]
+      }
+    },
+    "/view-record/{id}": {
+      "get": {
+        "operationId": "ViewRecordController_getOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ViewRecord"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "view-record"
+        ]
+      },
+      "patch": {
+        "operationId": "ViewRecordController_updateOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateViewRecordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ViewRecord"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "view-record"
+        ]
+      },
+      "delete": {
+        "operationId": "ViewRecordController_deleteOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ViewRecord"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "view-record"
+        ]
+      }
+    },
+    "/favorites": {
+      "post": {
+        "operationId": "addToFavorite",
+        "summary": "Add favorite with video id and user id.",
+        "description": "Add a video to favorite list for a user",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFavoriteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Favorite"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "favorites"
+        ]
+      }
+    },
+    "/playlists": {
+      "post": {
+        "operationId": "createPlaylist",
+        "summary": "",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlaylistDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Playlist"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "playlists"
+        ]
+      },
+      "get": {
+        "operationId": "findPlaylists",
+        "summary": "",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Playlist"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "playlists"
+        ]
+      }
+    },
+    "/playlists/{id}": {
+      "get": {
+        "operationId": "findOnePlaylist",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Playlist"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "playlists"
+        ]
+      },
+      "patch": {
+        "operationId": "updatePlaylist",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlaylistDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Playlist"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "playlists"
+        ]
+      },
+      "delete": {
+        "operationId": "deletePlaylist",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Playlist"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "playlists"
+        ]
       }
     }
   },
@@ -633,6 +1295,262 @@
   "servers": [],
   "components": {
     "schemas": {
+      "SignUpDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "name"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "jwt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "jwt"
+        ]
+      },
+      "CreateCategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "categoryId",
+          "name"
+        ]
+      },
+      "UpdateCategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "CreateCourseDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "teacherId": {
+            "type": "number"
+          },
+          "categoryId": {
+            "type": "number"
+          },
+          "thumbnail": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "teacherId",
+          "categoryId",
+          "thumbnail"
+        ]
+      },
+      "Course": {
+        "type": "object",
+        "properties": {
+          "courseId": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "thumbnail": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "teacherId": {
+            "type": "number"
+          },
+          "categoryId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "courseId",
+          "name",
+          "description",
+          "thumbnail",
+          "createdAt",
+          "teacherId",
+          "categoryId"
+        ]
+      },
+      "CourseTeacher": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "name",
+          "email"
+        ]
+      },
+      "CourseWithCategoryTeacher": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "courseId": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/CourseTeacher"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "thumbnail": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "createdAt",
+          "courseId",
+          "name",
+          "description",
+          "teacher",
+          "category",
+          "thumbnail"
+        ]
+      },
+      "UpdateCourseDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "teacherId": {
+            "type": "number"
+          },
+          "categoryId": {
+            "type": "number"
+          },
+          "thumbnail": {
+            "type": "number"
+          }
+        }
+      },
+      "Video": {
+        "type": "object",
+        "properties": {
+          "videoId": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "fileLink": {
+            "type": "string"
+          },
+          "length": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "courseId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "videoId",
+          "name",
+          "fileLink",
+          "length",
+          "description",
+          "createdAt",
+          "courseId"
+        ]
+      },
       "CreateUserDto": {
         "type": "object",
         "properties": {
@@ -708,210 +1626,7 @@
           }
         }
       },
-      "SignUpDto": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "email",
-          "password",
-          "name"
-        ]
-      },
-      "LoginDto": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "email",
-          "password"
-        ]
-      },
-      "LoginResponse": {
-        "type": "object",
-        "properties": {
-          "jwt": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "jwt"
-        ]
-      },
-      "CreateCourseDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "teacherId": {
-            "type": "number"
-          },
-          "categoryId": {
-            "type": "number"
-          },
-          "thumbnail": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "name",
-          "description",
-          "teacherId",
-          "categoryId",
-          "thumbnail"
-        ]
-      },
-      "CategoryEntity": {
-        "type": "object",
-        "properties": {
-          "categoryId": {
-            "type": "number"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "categoryId",
-          "name"
-        ]
-      },
-      "CourseEntity": {
-        "type": "object",
-        "properties": {
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "courseId": {
-            "type": "number"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "teacher": {
-            "$ref": "#/components/schemas/PickTypeClass"
-          },
-          "category": {
-            "$ref": "#/components/schemas/CategoryEntity"
-          }
-        },
-        "required": [
-          "createdAt",
-          "courseId",
-          "name",
-          "description",
-          "teacher",
-          "category"
-        ]
-      },
-      "UpdateCourseDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "teacherId": {
-            "type": "number"
-          },
-          "categoryId": {
-            "type": "number"
-          },
-          "thumbnail": {
-            "type": "number"
-          }
-        }
-      },
-      "CreateCategoryDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name"
-        ]
-      },
-      "Category": {
-        "type": "object",
-        "properties": {
-          "categoryId": {
-            "type": "number"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "categoryId",
-          "name"
-        ]
-      },
-      "UpdateCategoryDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name"
-        ]
-      },
-      "CreateVideoDto": {
-        "type": "object",
-        "properties": {
-          "fileLink": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "length": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "courseId": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "fileLink",
-          "name",
-          "length",
-          "description",
-          "courseId"
-        ]
-      },
-      "Video": {
+      "UserVideo": {
         "type": "object",
         "properties": {
           "videoId": {
@@ -947,6 +1662,69 @@
           "courseId"
         ]
       },
+      "UserCourse": {
+        "type": "object",
+        "properties": {
+          "courseId": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "thumbnail": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "teacherId": {
+            "type": "number"
+          },
+          "categoryId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "courseId",
+          "name",
+          "description",
+          "thumbnail",
+          "createdAt",
+          "teacherId",
+          "categoryId"
+        ]
+      },
+      "CreateVideoDto": {
+        "type": "object",
+        "properties": {
+          "fileLink": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "length": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "courseId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "fileLink",
+          "name",
+          "length",
+          "description",
+          "courseId"
+        ]
+      },
       "UpdateVideoDto": {
         "type": "object",
         "properties": {
@@ -968,6 +1746,194 @@
           "length",
           "description",
           "fileLink"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "guest",
+              "student",
+              "teacher"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "role",
+          "name",
+          "email",
+          "createdAt",
+          "password",
+          "avatar"
+        ]
+      },
+      "CreateViewRecordDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number"
+          },
+          "videoId": {
+            "type": "number"
+          },
+          "videoTimeAnchor": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "videoId",
+          "videoTimeAnchor"
+        ]
+      },
+      "ViewRecord": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "userId": {
+            "type": "number"
+          },
+          "videoId": {
+            "type": "number"
+          },
+          "viewRecordId": {
+            "type": "number"
+          },
+          "videoTimeAnchor": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "createdAt",
+          "userId",
+          "videoId",
+          "viewRecordId",
+          "videoTimeAnchor"
+        ]
+      },
+      "UpdateViewRecordDto": {
+        "type": "object",
+        "properties": {
+          "videoTimeAnchor": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "videoTimeAnchor"
+        ]
+      },
+      "CreateFavoriteDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number"
+          },
+          "videoId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "userId",
+          "videoId"
+        ]
+      },
+      "Favorite": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "userId": {
+            "type": "number"
+          },
+          "videoId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "createdAt",
+          "userId",
+          "videoId"
+        ]
+      },
+      "CreatePlaylistDto": {
+        "type": "object",
+        "properties": {
+          "courseId": {
+            "type": "number"
+          },
+          "userId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "courseId",
+          "userId"
+        ]
+      },
+      "Playlist": {
+        "type": "object",
+        "properties": {
+          "playlistId": {
+            "type": "number"
+          },
+          "courseId": {
+            "type": "number"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "userId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "playlistId",
+          "courseId",
+          "createdAt",
+          "userId"
+        ]
+      },
+      "UpdatePlaylistDto": {
+        "type": "object",
+        "properties": {
+          "courseId": {
+            "type": "number"
+          },
+          "userId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "courseId",
+          "userId"
         ]
       }
     }

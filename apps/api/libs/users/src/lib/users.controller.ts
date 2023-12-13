@@ -20,6 +20,8 @@ import {
   PickType,
 } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
+import { UserCourse } from './entities/user-courses';
+import { UserVideo } from './entities/user-video';
 
 @ApiTags('users')
 @Controller('users')
@@ -68,5 +70,55 @@ export class UsersController {
   @ApiOkResponse({ type: [OmitType(User, ['password'] as const)] })
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);
+  }
+
+  @ApiOperation({
+    summary: '獲取一個用戶已經看過的影片',
+    operationId: 'getViewedVideosByUserId',
+  })
+  @Get(':id/viewedVideos')
+  @ApiOkResponse({ type: [UserVideo] })
+  getViewedVideosByUser(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getViewedVideoByUserId(id);
+  }
+
+  @ApiOperation({
+    summary: '獲取一個用戶收藏的影片',
+    operationId: 'getFavoritesByUserId',
+  })
+  @Get(':id/favorites')
+  @ApiOkResponse({ type: [UserVideo] })
+  getFavoritesByUserId(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getFavoritesByUserId(id);
+  }
+
+  @ApiOperation({
+    summary: '讀取一個老師擁有的影片',
+    operationId: 'getOwnVideosByUserId',
+  })
+  @Get(':id/ownVideos')
+  @ApiOkResponse({ type: [UserVideo] })
+  getOwnVideosByUserId(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getOwnVideoByUserId(id);
+  }
+
+  @ApiOperation({
+    summary: '讀取一個老師任教的課程',
+    operationId: 'getTeachingCoursesByUserId',
+  })
+  @Get(':id/teachingCourses')
+  @ApiOkResponse({ type: [UserCourse] })
+  getTeachingCourseByUserId(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getOwnCoursesByUserId(id);
+  }
+
+  @ApiOperation({
+    summary: '讀取一個用戶的播放清單',
+    operationId: 'getPlaylistForUser',
+  })
+  @Get(':id/playlist')
+  @ApiOkResponse({ type: [UserCourse] })
+  getPlaylistByUserId(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.getPlaylistForUser(id);
   }
 }

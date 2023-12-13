@@ -1,0 +1,1 @@
+ALTER TABLE "view_record" ADD COLUMN "view_record_id" bigserial NOT NULL;

@@ -64,4 +64,19 @@ export class CategoryService {
       .returning();
     return res;
   }
+
+  async getCourseByCategoryId(categoryId: number) {
+    const res = await this.conn
+      .select()
+      .from(schema.course)
+      .where(eq(schema.course.categoryId, categoryId))
+      .leftJoin(schema.user, eq(schema.user.userId, schema.course.teacherId));
+
+    return res
+      .map((entry) => ({ ...entry, users: entry.users! }))
+      .map((entry) => {
+        const { name, userId, email } = entry.users;
+        return { ...entry.course, teacher: { name, userId, email } };
+      });
+  }
 }

@@ -71,6 +71,34 @@
       "when": 1702441923370,
       "tag": "0009_breezy_blob",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1702462532553,
+      "tag": "0010_old_warhawk",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1702462732421,
+      "tag": "0011_dizzy_enchantress",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1702465701927,
+      "tag": "0012_naive_captain_flint",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "5",
+      "when": 1702500590801,
+      "tag": "0013_certain_dexter_bennett",
+      "breakpoints": true
     }
   ]
 }

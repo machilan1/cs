@@ -1,14 +1,7 @@
-/* eslint-disable @nx/enforce-module-boundaries */
+import { SelectCourse } from '@cs/shared';
+import { ApiProperty } from '@nestjs/swagger';
 
-import { ApiProperty, PickType } from '@nestjs/swagger';
-import { User } from '@cs/users';
-import { SelectCategory } from '@cs/shared';
-import { CategoryEntity } from './category.entity';
-
-export class CourseEntity {
-  @ApiProperty()
-  createdAt!: Date;
-
+export class Course implements SelectCourse {
   @ApiProperty()
   courseId!: number;
 
@@ -18,13 +11,15 @@ export class CourseEntity {
   @ApiProperty()
   description!: string;
 
-  @ApiProperty({ type: PickType(User, ['userId', 'name', 'email']) })
-  teacher!: Partial<User>;
+  @ApiProperty()
+  thumbnail!: string;
 
-  @ApiProperty({ type: CategoryEntity })
-  category!: SelectCategory;
+  @ApiProperty()
+  createdAt!: Date;
 
-  constructor(partial: Partial<CourseEntity>) {
-    Object.assign(this, partial);
-  }
+  @ApiProperty()
+  teacherId!: number;
+
+  @ApiProperty()
+  categoryId!: number;
 }

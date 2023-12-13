@@ -54,22 +54,6 @@ export const category = pgTable('category', {
 export type SelectCategory = InferSelectModel<typeof category>;
 export type InsertCategory = InferInsertModel<typeof category>;
 
-export const enroll = pgTable('enroll', {
-  enrollTime: timestamp('enroll_time', { withTimezone: true })
-    .defaultNow()
-    .notNull(),
-  userId: integer('user_id').references(() => user.userId),
-  courseId: integer('course_id').references(() => course.courseId),
-});
-
-export const favorite = pgTable('favorite', {
-  createdAt: timestamp('created_at', { withTimezone: true })
-    .defaultNow()
-    .notNull(),
-  userId: integer('user_id').references(() => user.userId),
-  courseId: integer('course_id').references(() => course.courseId),
-});
-
 export const video = pgTable('video', {
   videoId: bigserial('video_id', { mode: 'number' }).primaryKey().notNull(),
   name: varchar('name', { length: 45 }).notNull(),
@@ -88,18 +72,61 @@ export type SelectVideo = InferSelectModel<typeof video>;
 export type InsertVideo = InferInsertModel<typeof video>;
 
 export const viewRecord = pgTable('view_record', {
-  created_at: timestamp('created_at', { withTimezone: true })
+  viewRecordId: bigserial('view_record_id', { mode: 'number' })
+    .primaryKey()
+    .notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),
-  userId: integer('user_id').references(() => user.userId),
-  videoId: integer('video_id').references(() => video.videoId),
+  userId: integer('user_id')
+    .references(() => user.userId)
+    .notNull(),
+  videoId: integer('video_id')
+    .references(() => video.videoId)
+    .notNull(),
+  videoTimeAnchor: varchar('video_time_anchor', { length: 25 }).notNull(),
 });
 
-export const scheduledVideo = pgTable('scheduled_video', {
-  videoId: integer('video_id').references(() => video.videoId),
-  userId: integer('user_id').references(() => user.userId),
-  rank: varchar('rank', { length: 25 }),
+export type SelectViewRecord = InferSelectModel<typeof viewRecord>;
+export type InsertViewRecord = InferInsertModel<typeof viewRecord>;
+
+export const playlist = pgTable('playlist', {
+  playlistId: bigserial('playlist_id', { mode: 'number' })
+    .primaryKey()
+    .notNull(),
+  courseId: integer('course_id')
+    .references(() => course.courseId)
+    .notNull(),
+  userId: integer('user_id')
+    .references(() => user.userId)
+    .notNull(),
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),
 });
+
+export type SelectPlaylist = InferSelectModel<typeof playlist>;
+export type InsertPlaylist = InferInsertModel<typeof playlist>;
+
+export const favorite = pgTable('favorite', {
+  createdAt: timestamp('created_at', { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  userId: integer('user_id')
+    .references(() => user.userId)
+    .notNull(),
+  videoId: integer('video_id')
+    .references(() => video.videoId)
+    .notNull(),
+});
+
+export type SelectFavorite = InferSelectModel<typeof favorite>;
+export type InsertFavorite = InferInsertModel<typeof favorite>;
+
+// export const enroll = pgTable('enroll', {
+//   enrollTime: timestamp('enroll_time', { withTimezone: true })
+//     .defaultNow()
+//     .notNull(),
+//   userId: integer('user_id').references(() => user.userId),
+//   courseId: integer('course_id').references(() => course.courseId),
+// });

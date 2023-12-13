@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from '../dto/create-course.dto';
@@ -18,38 +19,41 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { CourseEntity } from '../entities/course.entity';
+import { CourseWithCategoryTeacher } from '@cs/shared';
+import { Course } from '../entities/course.entity';
+import { FilterCourseParams } from '../dto/fIlter-course.param';
+import { Video } from '@cs/videos';
 
 @ApiTags('courses')
 @Controller('courses')
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
-  // Todo Return object on creation
   @ApiOperation({ operationId: 'createCourse' })
   @ApiBody({ type: CreateCourseDto })
-  @ApiCreatedResponse({ description: 'Created' })
+  @ApiCreatedResponse({ type: Course })
   @Post()
   create(@Body() createCourseDto: CreateCourseDto) {
     return this.coursesService.create(createCourseDto);
   }
 
   @Get()
-  @ApiOkResponse({ type: [CourseEntity] })
+  @ApiOkResponse({ type: [CourseWithCategoryTeacher] })
   @ApiOperation({ operationId: 'getCourses' })
-  async findAll(): Promise<CourseEntity[]> {
-    return this.coursesService.findAll();
+  async findAll(@Query() params: FilterCourseParams) {
+    return this.coursesService.findAll(params);
   }
 
   @Get(':id')
   @ApiOperation({ operationId: 'getCourseById' })
-  @ApiOkResponse({ type: CourseEntity })
+  @ApiOkResponse({ type: [CourseWithCategoryTeacher] })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.coursesService.findOne(id);
   }
 
   @ApiBody({ type: UpdateCourseDto })
   @ApiOperation({ operationId: 'updateCourse' })
+  @ApiOkResponse({ type: [Course] })
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -59,9 +63,19 @@ export class CoursesController {
   }
 
   @ApiOperation({ operationId: 'deleteCourse' })
-  @ApiOkResponse({ description: 'Deleted' })
+  @ApiOkResponse({ type: [Course] })
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.coursesService.remove(id);
+  }
+
+  @ApiOperation({
+    summary: '讀取跟一堂課程相關的影片',
+    operationId: 'getVideosForCourse',
+  })
+  @Get(':id/videos')
+  @ApiOkResponse({ type: [Video] })
+  getFavoritesByUserId(@Param('id', ParseIntPipe) id: number) {
+    return this.coursesService.getVideosByCourseId(id);
   }
 }

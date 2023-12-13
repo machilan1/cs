@@ -11,16 +11,22 @@ import { FileModule } from '@cs/file';
 import { join } from 'path';
 import { CategoryModule } from '@cs/category';
 import { VideosModule } from '@cs/videos';
+import { ViewRecordModule } from '@cs/view-record';
+import { FavoritesModule } from '@cs/favorites';
+import { PlaylistsModule } from '@cs/playlists';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    UsersModule,
     AuthModule,
-    CoursesModule,
     CategoryModule,
-    VideosModule,
+    CoursesModule,
+    UsersModule,
     FileModule,
+    VideosModule,
+    ViewRecordModule,
+    FavoritesModule,
+    PlaylistsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, 'upload'),
     }),

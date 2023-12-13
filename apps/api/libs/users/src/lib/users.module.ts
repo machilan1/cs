@@ -1,11 +1,12 @@
-import { Inject, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { DrizzleService } from '@cs/shared';
+import { DatabaseModule } from '@cs/shared';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService, DrizzleService],
+  providers: [UsersService],
+  imports: [DatabaseModule],
   exports: [],
 })
 export class UsersModule {}

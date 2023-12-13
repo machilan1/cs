@@ -1,24 +1,26 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { LoginDto } from './dtos/login.dto';
 import { LoginResponse } from './models/responses/login.response';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
-import { DrizzleService, InsertUser } from '@cs/shared';
+import { InsertUser, PG_CONNECTION } from '@cs/shared';
 import { user } from '@cs/shared';
 import { eq } from 'drizzle-orm';
 import { UsersService } from '@cs/users';
 import { LOGIN_FAIL } from './models/errors/auth-error-msg';
+import * as schema from '@cs/shared';
+import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @Inject(PG_CONNECTION) private conn: NodePgDatabase<typeof schema>,
     private configService: ConfigService,
     private jwtService: JwtService,
-    private drizzleService: DrizzleService,
+
     private userService: UsersService
   ) {}
-  db = this.drizzleService.createDbClient();
 
   async signUp(signUpDto: InsertUser) {
     try {
@@ -31,7 +33,7 @@ export class AuthService {
       }
       const secret = this.encrypt(signUpDto.password);
       const newUser = { ...signUpDto, password: secret } satisfies LoginDto;
-      return this.db.insert(user).values(newUser);
+      return this.conn.insert(user).values(newUser);
     } catch (err) {
       return new BadRequestException(err);
     }
@@ -71,7 +73,7 @@ export class AuthService {
 
   // Get user hash by id
   async #getUserHash(userId: number) {
-    const [secret] = await this.db
+    const [secret] = await this.conn
       .select({ secret: user.password })
       .from(user)
       .where(eq(user.userId, userId))

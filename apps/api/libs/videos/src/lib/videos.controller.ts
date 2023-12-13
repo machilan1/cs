@@ -10,9 +10,10 @@ import {
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dtos/create-video.dto';
-import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Video } from './entities/video.entity';
 import { UpdateVideoDto } from './dtos/update-video.dto';
+import { User } from '@cs/users';
 
 @ApiTags('videos')
 @Controller('videos')
@@ -50,6 +51,14 @@ export class VideosController {
   @ApiOkResponse({ type: Video })
   async deleteVideo(@Param('id', ParseIntPipe) id: number) {
     const res = await this.videosService.delete(id);
+    return res;
+  }
+
+  @ApiOperation({ summary: '讀取所有看過特定一支影片的學生' })
+  @Post(':id/students')
+  @ApiOkResponse({ type: [User] })
+  async getStudentsByVideoId(@Param('id', ParseIntPipe) videoId: number) {
+    const res = await this.videosService.getStudentsByVideoId(videoId);
     return res;
   }
 }

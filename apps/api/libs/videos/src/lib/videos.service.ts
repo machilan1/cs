@@ -1,17 +1,11 @@
 import { PG_CONNECTION } from '@cs/shared';
-import {
-  BadGatewayException,
-  BadRequestException,
-  Inject,
-  Injectable,
-} from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import * as schema from '@cs/shared';
 import { SelectVideo } from '@cs/shared';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { CreateVideoDto } from './dtos/create-video.dto';
 import { UpdateVideoDto } from './dtos/update-video.dto';
-import { ApiConflictResponse } from '@nestjs/swagger';
 
 @Injectable()
 export class VideosService {
@@ -58,5 +52,38 @@ export class VideosService {
       .delete(schema.video)
       .where(eq(schema.video.videoId, videoId))
       .returning();
+  }
+
+  async findFavoritesByUserId(userId: number) {
+    const res = await this.conn
+      .select()
+      .from(schema.favorite)
+      .where(eq(schema.favorite.userId, userId))
+      .leftJoin(
+        schema.video,
+        eq(schema.favorite.videoId, schema.video.videoId)
+      );
+    return res.map((x) => ({
+      ...x,
+      video: x.video!,
+    }));
+  }
+
+  async getStudentsByVideoId(videoId: number) {
+    const res = await this.conn
+      .select()
+      .from(schema.viewRecord)
+      .where(
+        and(
+          eq(schema.viewRecord.videoId, videoId),
+          eq(schema.user.role, 'student')
+        )
+      )
+      .rightJoin(schema.user, eq(schema.viewRecord.userId, schema.user.userId));
+
+    return res.map((entry) => {
+      const { password, ...rest } = entry.users;
+      return rest;
+    });
   }
 }
