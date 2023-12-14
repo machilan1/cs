@@ -25,17 +25,25 @@ import { RouterLink } from '@angular/router';
           <input
             type="text"
             class="border rounded-md p-2"
-            placeholder="Email"
+            placeholder="請輸入信箱"
+            formControlName="email"
           />
           <input
-            type="password"
+            type="text"
             class="border rounded-md p-2"
-            placeholder="Password"
+            placeholder="請輸入密碼"
+            formControlName="password"
+          />
+          <input
+            type="text"
+            class="border rounded-md p-2"
+            placeholder="請再次輸入密碼"
+            formControlName="confirm"
           />
           <div class="w-full flex justify-center">
             <button
               type="submit"
-              class="bg-black w-fit px-12 py-1 text-white rounded-md"
+              class="bg-black w-fit px-12 py-1 text-white rounded-md hover:bg-gray-700 "
             >
               註冊
             </button>
@@ -66,9 +74,19 @@ export class RegisterComponent {
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
+    confirm: new FormControl('', Validators.required),
   });
 
   submit() {
+    if (this.form.invalid) {
+      alert('資料錯誤，請重新輸入');
+      return;
+    }
+
+    if (this.form.value.password !== this.form.value.confirm) {
+      alert('密碼不一致，請重新輸入');
+      return;
+    }
     console.log(this.form.value);
   }
 }

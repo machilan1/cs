@@ -46,13 +46,8 @@ import { Component, signal } from '@angular/core';
       <div class="border rounded-md px-4 py-2">
         <div>課程介紹</div>
         <!-- @for() {
-      <div class="text-sm pt-2">影片</div>
+          <div class="text-sm pt-2 cursor-pointer">影片</div>
     } -->
-        <div class="text-sm pt-2">影片</div>
-        <div class="text-sm pt-2">影片</div>
-        <div class="text-sm pt-2">影片</div>
-        <div class="text-sm pt-2">影片</div>
-        <div class="text-sm pt-2">影片</div>
       </div>
     </div>
   `,

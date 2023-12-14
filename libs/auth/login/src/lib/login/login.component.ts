@@ -16,7 +16,7 @@ import { RouterLink } from '@angular/router';
     <div class="w-full h-screen flex justify-center items-center">
       <form
         [formGroup]="form"
-        (ngSubmit)="submit()"
+        (submit)="submit()"
         class="border rounded-md px-20 py-12 w-1/2"
       >
         <div class="text-2xl font-semibold text-center">登入</div>
@@ -25,18 +25,20 @@ import { RouterLink } from '@angular/router';
           <input
             type="email"
             class="border rounded-md p-2"
-            placeholder="Email"
+            placeholder="請輸入信箱"
+            formControlName="email"
           />
           <input
-            type="password"
+            type="text"
             class="border rounded-md p-2"
-            placeholder="Password"
+            placeholder="請輸入密碼"
+            formControlName="password"
           />
 
           <div class="w-full flex justify-center">
             <button
               type="submit"
-              class="bg-black w-fit text-white rounded-md px-12 py-1"
+              class="bg-black w-fit text-white rounded-md px-12 py-1 hover:bg-gray-700"
             >
               登入
             </button>
@@ -73,10 +75,10 @@ export class LoginComponent {
   });
 
   submit() {
-    console.log(this.form.value);
-
     if (this.form.invalid) {
+      alert('資料錯誤，請重新輸入');
       return;
     }
+    console.log(this.form.value);
   }
 }

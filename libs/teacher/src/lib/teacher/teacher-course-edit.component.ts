@@ -1,30 +1,37 @@
+import { video } from './../../../../../apps/api/libs/shared/src/lib/drizzle/schema';
 import {
+  FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CourseEditComponent } from './course-edit-dialog.component';
+import { EditDialogResult } from './models/edit-dialog-result.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'cs-teacher-course-edit',
   standalone: true,
   template: `
-    <div class="w-full flex justify-end gap-2">
-      <button class="px-4 py-1 bg-black text-white rounded-md text-sm">
-        儲存
-      </button>
-      <button class="px-4 py-1 border text-red-500 rounded-md text-sm">
-        刪除
-      </button>
-    </div>
     <form
       [formGroup]="form"
-      (ngSubmit)="submit()"
+      (submit)="submit()"
       class="flex flex-col gap-4 pt-4"
     >
+      <div class="w-full flex justify-end gap-2">
+        <button
+          class="px-4 py-1 bg-black text-white rounded-md text-sm"
+          type="submit"
+        >
+          儲存
+        </button>
+        <button class="px-4 py-1 border text-red-500 rounded-md text-sm">
+          刪除
+        </button>
+      </div>
       <div class="flex gap-8">
         <label for="name" class="w-20">課程名稱</label>
         <input
@@ -35,8 +42,19 @@ import { CourseEditComponent } from './course-edit-dialog.component';
         />
       </div>
       <div class="flex gap-8">
+        <label for="image" class="w-20">課程圖片</label>
+        <input
+          id="image"
+          formControlName="image"
+          class="border rounded-md w-full p-2"
+          type="file"
+          accept="image/gif, image/jpeg, image/png"
+        />
+      </div>
+      <div class="flex gap-8">
         <label for="description" class="w-20">課程介紹</label>
         <textarea
+          rows="5"
           id="description"
           formControlName="description"
           class="border rounded-md w-full"
@@ -57,18 +75,27 @@ import { CourseEditComponent } from './course-edit-dialog.component';
       <div class="flex gap-8">
         <label for="video" class="w-20">課程影片</label>
         <div class="border rounded-md px-4 flex flex-col w-full pb-2">
-          <div class="flex justify-between pt-2">
-            <div>影片名稱</div>
-            <div class="flex gap-4">
-              <button class="px-4" (click)="openDialog()">編輯</button>
-            </div>
-          </div>
-          <div class="flex justify-between pt-2">
-            <div>影片名稱</div>
-            <div class="flex gap-4">
-              <button class="px-4" (click)="openDialog()">編輯</button>
-            </div>
-          </div>
+          <ng-container formArrayName="videos">
+            @for (
+              videosForm of videosFormArray.controls;
+              track videosForm;
+              let i = $index
+            ) {
+              <div class="flex justify-between pt-2" [formGroupName]="i">
+                <input formControlName="title" type="text" />
+                <div class="flex gap-4">
+                  <button
+                    type="button"
+                    class="px-4 text-sm"
+                    (click)="openDialog(videosForm)"
+                  >
+                    編輯
+                  </button>
+                </div>
+              </div>
+            }
+          </ng-container>
+
           <div
             class="text-sm text-gray-500 text-center pt-2 cursor-pointer"
             (click)="openDialog()"
@@ -86,24 +113,54 @@ import { CourseEditComponent } from './course-edit-dialog.component';
 export class TeacherCourseEditComponent {
   form = new FormGroup({
     name: new FormControl('', [Validators.required]),
+    image: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     category: new FormControl('', [Validators.required]),
+    videos: new FormArray<FormGroup>([]),
   });
 
-  submit() {
-    console.log(this.form.value);
+  constructor(
+    public dialog: MatDialog,
+    private destroyRef: DestroyRef,
+  ) {}
+
+  get videosFormArray() {
+    return this.form.controls['videos'];
   }
 
-  constructor(public dialog: MatDialog) {}
+  submit() {
+    if (this.form.invalid) {
+      alert('資料有誤，請重新輸入');
+      return;
+    }
+  }
 
-  openDialog() {
+  openDialog(videosForm?: FormGroup) {
     const dialogRef = this.dialog.open(CourseEditComponent, {
       height: '200px',
       width: '400px',
+      data: videosForm?.value,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+    if (!videosForm) {
+      dialogRef
+        .afterClosed()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((result: EditDialogResult) => {
+          const fg = this.createVideoGroup(result);
+          this.addVideoGroup(fg);
+        });
+    }
+  }
+
+  createVideoGroup(params?: { title: string; upload: File }) {
+    return new FormGroup({
+      title: new FormControl(params?.title ?? '', [Validators.required]),
+      upload: new FormControl(params?.upload ?? '', [Validators.required]),
     });
+  }
+
+  addVideoGroup(formGroup: FormGroup) {
+    this.videosFormArray.push(formGroup);
   }
 }
