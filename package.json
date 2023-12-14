@@ -38,6 +38,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "tsx": "^4.6.2",
     "zone.js": "~0.14.0"
   },
   "devDependencies": {

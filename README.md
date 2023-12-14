@@ -49,3 +49,5 @@ DB_URL="postgres://${DB_USER}:${DB_PSW}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
 
 3. Access api through localhost:3000
 4. Access documentation through localhost:3000/api
+
+# Migrate Database
