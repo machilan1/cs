@@ -1,13 +1,8 @@
-/* eslint-disable @nx/enforce-module-boundaries */
-
 import { ApiProperty } from '@nestjs/swagger';
-import { SelectCategory, SelectCourse } from '@cs/shared';
-import { Category } from '@cs/category';
-import { CourseTeacher } from '@cs/shared';
+import { CourseTeacher } from './course-teacher.entity';
+import { CourseCategory } from './course-category';
 
-export class CourseWithCategoryTeacher
-  implements Omit<SelectCourse, 'teacherId' | 'categoryId'>
-{
+export class CourseWithCategoryTeacher {
   @ApiProperty()
   createdAt!: Date;
 
@@ -23,8 +18,8 @@ export class CourseWithCategoryTeacher
   @ApiProperty({ type: CourseTeacher })
   teacher!: CourseTeacher;
 
-  @ApiProperty({ type: Category })
-  category!: SelectCategory;
+  @ApiProperty({ type: CourseCategory })
+  category!: CourseCategory;
 
   @ApiProperty()
   thumbnail!: string;

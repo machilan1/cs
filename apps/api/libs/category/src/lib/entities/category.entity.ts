@@ -1,8 +1,7 @@
-import { SelectCategory } from '@cs/shared';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
 
-export class Category implements SelectCategory {
+export class Category {
   @ApiProperty({ type: Number })
   @IsNumber()
   categoryId!: number;

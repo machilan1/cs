@@ -109,6 +109,9 @@ export type SelectPlaylist = InferSelectModel<typeof playlist>;
 export type InsertPlaylist = InferInsertModel<typeof playlist>;
 
 export const favorite = pgTable('favorite', {
+  favoriteId: bigserial('favorite_id', { mode: 'number' })
+    .primaryKey()
+    .notNull(),
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),

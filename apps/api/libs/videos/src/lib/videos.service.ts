@@ -6,6 +6,7 @@ import { SelectVideo } from '@cs/shared';
 import { and, eq } from 'drizzle-orm';
 import { CreateVideoDto } from './dtos/create-video.dto';
 import { UpdateVideoDto } from './dtos/update-video.dto';
+import { FilterVideoParams } from './entities/filter-video-params';
 
 @Injectable()
 export class VideosService {
@@ -25,15 +26,22 @@ export class VideosService {
     }
   }
 
-  async findAll(): Promise<SelectVideo[]> {
-    return this.conn.select().from(schema.video);
+  async findAll({ courseId }: FilterVideoParams): Promise<SelectVideo[]> {
+    const query = this.conn.select().from(schema.video).$dynamic();
+
+    if (courseId) {
+      query.where(eq(schema.video.courseId, courseId));
+    }
+
+    const res = await query;
+    return res;
   }
 
   async findOne(videoId: number) {
     return this.conn
       .select()
       .from(schema.video)
-      .where(eq(schema.video, videoId));
+      .where(eq(schema.video.videoId, videoId));
   }
 
   async update(
@@ -82,6 +90,7 @@ export class VideosService {
       .rightJoin(schema.user, eq(schema.viewRecord.userId, schema.user.userId));
 
     return res.map((entry) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...rest } = entry.users;
       return rest;
     });

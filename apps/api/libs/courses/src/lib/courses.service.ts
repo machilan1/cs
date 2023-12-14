@@ -9,7 +9,7 @@ import {
   video,
 } from '@cs/shared';
 import { eq } from 'drizzle-orm';
-import { CourseWithCategoryTeacher } from '../../../shared/src/lib/classes/course-with-category-teacher.entity';
+import { CourseWithCategoryTeacher } from '@cs/shared';
 import { Course } from '../entities/course.entity';
 import { FilterCourseParams } from '../dto/fIlter-course.param';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
@@ -64,7 +64,7 @@ export class CoursesService {
     return res;
   }
 
-  async findOne(courseId: number): Promise<CourseWithCategoryTeacher[]> {
+  async findOne(courseId: number) {
     const res = await this.conn
       .select({
         courseId: course.courseId,
@@ -77,10 +77,7 @@ export class CoursesService {
       .where(eq(course.courseId, courseId))
       .leftJoin(user, eq(course.teacherId, user.userId));
 
-    return res.map(
-      (course) =>
-        new CourseWithCategoryTeacher({ ...course, teacher: course.teacher! })
-    );
+    return res;
   }
 
   async update(

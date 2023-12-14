@@ -24,7 +24,7 @@ export class AuthService {
 
   async signUp(signUpDto: InsertUser) {
     try {
-      const [a, b] = await Promise.all([
+      const [[a], [b]] = await Promise.all([
         this.userService.findOntByEmail(signUpDto.email),
         this.userService.findOntByName(signUpDto.name),
       ]);

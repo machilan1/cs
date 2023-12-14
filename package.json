@@ -2,7 +2,9 @@
   "name": "@cs/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "oai": "ng-openapi-gen --input openapi.json --output libs/shared/src/lib --indexFile=true"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~17.0.0",
@@ -30,6 +32,7 @@
     "dotenv": "^16.3.1",
     "drizzle-orm": "^0.29.1",
     "multer": "^1.4.5-lts.1",
+    "ng-openapi-gen": "^0.51.0",
     "pg": "^8.11.3",
     "postgres": "^3.4.3",
     "reflect-metadata": "^0.1.13",

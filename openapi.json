@@ -60,7 +60,8 @@
     },
     "/category": {
       "post": {
-        "operationId": "CategoryController_create",
+        "operationId": "createCategory",
+        "summary": "",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -92,7 +93,8 @@
         ]
       },
       "get": {
-        "operationId": "CategoryController_get",
+        "operationId": "findCategories",
+        "summary": "",
         "parameters": [],
         "responses": {
           "200": {
@@ -116,7 +118,8 @@
     },
     "/category/{id}": {
       "patch": {
-        "operationId": "CategoryController_update",
+        "operationId": "findCategory",
+        "summary": "",
         "parameters": [
           {
             "name": "id",
@@ -157,7 +160,8 @@
         ]
       },
       "delete": {
-        "operationId": "CategoryController_delete",
+        "operationId": "deleteCategory",
+        "summary": "",
         "parameters": [
           {
             "name": "id",
@@ -181,30 +185,6 @@
                 }
               }
             }
-          }
-        },
-        "tags": [
-          "category"
-        ]
-      }
-    },
-    "/category/{id}/courses": {
-      "get": {
-        "operationId": "getCoursesByCategoryId",
-        "summary": "讀取單一分類底下的所有課程",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
           }
         },
         "tags": [
@@ -374,40 +354,6 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Course"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "courses"
-        ]
-      }
-    },
-    "/courses/{id}/videos": {
-      "get": {
-        "operationId": "getVideosForCourse",
-        "summary": "讀取跟一堂課程相關的影片",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Video"
                   }
                 }
               }
@@ -768,7 +714,8 @@
     },
     "/videos": {
       "post": {
-        "operationId": "VideosController_createVideo",
+        "operationId": "createVideo",
+        "summary": "",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -800,8 +747,19 @@
         ]
       },
       "get": {
-        "operationId": "VideosController_findVideos",
-        "parameters": [],
+        "operationId": "findVideos",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "courseId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -823,8 +781,41 @@
       }
     },
     "/videos/{id}": {
+      "get": {
+        "operationId": "findOneVideo",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Video"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "videos"
+        ]
+      },
       "patch": {
-        "operationId": "VideosController_updateVideo",
+        "operationId": "updateVideo",
+        "summary": "",
         "parameters": [
           {
             "name": "id",
@@ -1107,7 +1098,77 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Favorite"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Favorite"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "favorites"
+        ]
+      },
+      "get": {
+        "operationId": "getFavorite",
+        "summary": "Retrieve favorites",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Favorite"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "favorites"
+        ]
+      }
+    },
+    "/favorites/{id}": {
+      "delete": {
+        "operationId": "FavoritesController_delete",
+        "summary": "Remove favorite with id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Favorite"
+                  }
                 }
               }
             }
@@ -1459,6 +1520,10 @@
           "email"
         ]
       },
+      "CourseCategory": {
+        "type": "object",
+        "properties": {}
+      },
       "CourseWithCategoryTeacher": {
         "type": "object",
         "properties": {
@@ -1479,7 +1544,7 @@
             "$ref": "#/components/schemas/CourseTeacher"
           },
           "category": {
-            "$ref": "#/components/schemas/Category"
+            "$ref": "#/components/schemas/CourseCategory"
           },
           "thumbnail": {
             "type": "string"
@@ -1514,42 +1579,6 @@
             "type": "number"
           }
         }
-      },
-      "Video": {
-        "type": "object",
-        "properties": {
-          "videoId": {
-            "type": "number"
-          },
-          "name": {
-            "type": "string"
-          },
-          "fileLink": {
-            "type": "string"
-          },
-          "length": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "courseId": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "videoId",
-          "name",
-          "fileLink",
-          "length",
-          "description",
-          "createdAt",
-          "courseId"
-        ]
       },
       "CreateUserDto": {
         "type": "object",
@@ -1725,6 +1754,42 @@
           "courseId"
         ]
       },
+      "Video": {
+        "type": "object",
+        "properties": {
+          "videoId": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "fileLink": {
+            "type": "string"
+          },
+          "length": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "courseId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "videoId",
+          "name",
+          "fileLink",
+          "length",
+          "description",
+          "createdAt",
+          "courseId"
+        ]
+      },
       "UpdateVideoDto": {
         "type": "object",
         "properties": {
@@ -1865,6 +1930,9 @@
       "Favorite": {
         "type": "object",
         "properties": {
+          "favoriteId": {
+            "type": "number"
+          },
           "createdAt": {
             "format": "date-time",
             "type": "string"
@@ -1877,6 +1945,7 @@
           }
         },
         "required": [
+          "favoriteId",
           "createdAt",
           "userId",
           "videoId"

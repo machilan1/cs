@@ -3,6 +3,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Favorite implements SelectFavorite {
   @ApiProperty()
+  favoriteId!: number;
+
+  @ApiProperty()
   createdAt!: Date;
 
   @ApiProperty()

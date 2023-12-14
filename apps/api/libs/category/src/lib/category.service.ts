@@ -76,7 +76,8 @@ export class CategoryService {
       .map((entry) => ({ ...entry, users: entry.users! }))
       .map((entry) => {
         const { name, userId, email } = entry.users;
-        return { ...entry.course, teacher: { name, userId, email } };
+        const { teacherId, ...restCourse } = entry.course;
+        return { ...restCourse, teacher: { name, userId, email } };
       });
   }
 }

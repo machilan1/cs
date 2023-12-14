@@ -148,7 +148,7 @@ export class UsersService {
       .from(course)
       .where(eq(course.teacherId, userId))
       .rightJoin(video, eq(course.courseId, video.courseId));
-    return res;
+    return res.map((entry) => entry.video);
   }
 
   async getOwnCoursesByUserId(userId: number): Promise<UserCourse[]> {
@@ -166,6 +166,12 @@ export class UsersService {
       .where(eq(playlist.userId, userId))
       .rightJoin(course, eq(playlist.courseId, course.courseId));
 
-    return res.map((entry) => ({ ...entry.playlist }));
+    return res
+      .map((entry) => ({ ...entry, playlist: entry.playlist! }))
+      .map((entry) => {
+        const { playlist, course } = entry;
+        const { courseId, ...rest } = playlist;
+        return { ...rest, course };
+      });
   }
 }

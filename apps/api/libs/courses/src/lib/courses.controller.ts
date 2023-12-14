@@ -19,10 +19,9 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { CourseWithCategoryTeacher } from '@cs/shared';
 import { Course } from '../entities/course.entity';
 import { FilterCourseParams } from '../dto/fIlter-course.param';
-import { Video } from '@cs/videos';
+import { CourseWithCategoryTeacher } from '@cs/shared';
 
 @ApiTags('courses')
 @Controller('courses')
@@ -67,15 +66,5 @@ export class CoursesController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.coursesService.remove(id);
-  }
-
-  @ApiOperation({
-    summary: '讀取跟一堂課程相關的影片',
-    operationId: 'getVideosForCourse',
-  })
-  @Get(':id/videos')
-  @ApiOkResponse({ type: [Video] })
-  getFavoritesByUserId(@Param('id', ParseIntPipe) id: number) {
-    return this.coursesService.getVideosByCourseId(id);
   }
 }
