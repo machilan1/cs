@@ -5,10 +5,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule],
   selector: 'cs-root',
-  template: `
-    <div>Hola, Amigo</div>
-    <router-outlet></router-outlet>
-  `,
+  template: ` <router-outlet></router-outlet> `,
   styles: [``],
 })
 export class AppComponent {}

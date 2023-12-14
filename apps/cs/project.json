@@ -8,15 +8,25 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/cs",
         "index": "apps/cs/src/index.html",
         "browser": "apps/cs/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/cs/tsconfig.app.json",
-        "assets": ["apps/cs/src/favicon.ico", "apps/cs/src/assets"],
-        "styles": ["apps/cs/src/styles.css"],
+        "assets": [
+          "apps/cs/src/favicon.ico",
+          "apps/cs/src/assets"
+        ],
+        "styles": [
+          "apps/cs/src/custom-theme.scss",
+          "apps/cs/src/styles.css"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -63,11 +73,15 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/cs/jest.config.ts"
       }
