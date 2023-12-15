@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export { Category } from './models/category';
+export { ChangeRoleDto } from './models/change-role-dto';
 export { Course } from './models/course';
 export { CourseCategory } from './models/course-category';
 export { CourseTeacher } from './models/course-teacher';
