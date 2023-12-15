@@ -2,22 +2,30 @@ import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import { migrate } from 'drizzle-orm/node-postgres/migrator';
+import * as dotenv from 'dotenv';
+import { expand } from 'dotenv-expand';
 
 async function main() {
+  const env = dotenv.config();
+  expand(env);
+
   console.log('Migration Start');
+
+  const dbUrl = process.env['DB_URL'];
   const pool = new Pool({
-    connectionString: 'postgres://postgres:123456@localhost:5432/db',
+    connectionString: dbUrl,
   });
 
   const db = drizzle(pool);
 
+  const dir = __dirname + '/migrations';
   await migrate(db, {
-    migrationsFolder:
-      'd:/2auto/cs/cs/apps/api/libs/shared/src/lib/drizzle/migrations',
+    migrationsFolder: dir,
   });
 
+  console.log('Migration completed');
+  await pool.end();
   process.exit(0);
 }
 
 main();
-console.log('Migration completed');
