@@ -37,7 +37,7 @@ export class AuthService {
       const [data] = await this.userService.create(newUser);
 
       const jwt = await this.jwtService.signAsync(
-        { user: data },
+        { userId: data.userId },
         {
           privateKey: this.configService.get('JWT_SECRET'),
         }
@@ -66,9 +66,12 @@ export class AuthService {
         throw new Error(LOGIN_FAIL);
       }
 
-      const jwt = await this.jwtService.signAsync(user, {
-        privateKey: this.configService.get('JWT_SECRET'),
-      });
+      const jwt = await this.jwtService.signAsync(
+        { userId: user.userId },
+        {
+          privateKey: this.configService.get('JWT_SECRET'),
+        }
+      );
       if (!jwt) {
         throw new Error(LOGIN_FAIL);
       }

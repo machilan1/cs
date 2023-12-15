@@ -41,8 +41,9 @@ export class AuthController {
   @ApiOperation({ operationId: 'findMe' })
   @ApiOkResponse()
   async findMe(@Req() req) {
-    const { userId } = req['user'];
-    return userId;
+    console.log(req);
+    const { userId } = req['user']['user'];
+    return { userId };
   }
 
   @Post('changeRole')
