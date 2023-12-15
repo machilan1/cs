@@ -18,7 +18,6 @@ export class AuthService {
     @Inject(PG_CONNECTION) private conn: NodePgDatabase<typeof schema>,
     private configService: ConfigService,
     private jwtService: JwtService,
-
     private userService: UsersService
   ) {}
 
@@ -31,18 +30,16 @@ export class AuthService {
       if (a || b) {
         throw new Error('註冊失敗');
       }
+
       const secret = this.encrypt(signUpDto.password);
       const newUser = { ...signUpDto, password: secret } satisfies LoginDto;
-
       const [data] = await this.userService.create(newUser);
-
       const jwt = await this.jwtService.signAsync(
         { userId: data.userId },
         {
           privateKey: this.configService.get('JWT_SECRET'),
         }
       );
-
       return { jwt };
     } catch (err) {
       return new BadRequestException(err);
@@ -56,12 +53,12 @@ export class AuthService {
         throw new Error(LOGIN_FAIL);
       }
 
-      const hash = await this.#getUserHash(user.userId);
+      const hash = await this.getUserHash(user.userId);
       if (!hash) {
         throw new Error(LOGIN_FAIL);
       }
 
-      const matches = this.#checkPassword(loginDto.password, hash);
+      const matches = this.checkPassword(loginDto.password, hash);
       if (!matches) {
         throw new Error(LOGIN_FAIL);
       }
@@ -84,8 +81,7 @@ export class AuthService {
 
   // utilities
 
-  // Get user hash by id
-  async #getUserHash(userId: number) {
+  private async getUserHash(userId: number) {
     const [secret] = await this.conn
       .select({ secret: user.password })
       .from(user)
@@ -94,25 +90,16 @@ export class AuthService {
     return secret.secret;
   }
 
-  // password encryptor
-  encrypt(password: string) {
+  private encrypt(password: string) {
     const hash = bcrypt.hashSync(
       password,
       +this.configService.get('SALT_ROUND') ?? 12
     );
     return hash;
   }
-  //password checker
-  #checkPassword(secret: string, hash: string): boolean {
+
+  private checkPassword(secret: string, hash: string): boolean {
     const res = bcrypt.compareSync(secret, hash);
     return res;
-  }
-
-  // jwt validator
-
-  async verifyJwt(token: string) {
-    // Todo See what type this function return
-    const verified = await this.jwtService.verifyAsync(token);
-    return verified;
   }
 }

@@ -32,7 +32,6 @@ export class VideosService {
     if (courseId) {
       query.where(eq(schema.video.courseId, courseId));
     }
-
     const res = await query;
     return res;
   }

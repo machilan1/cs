@@ -26,7 +26,6 @@ export class FavoritesService {
     if (userId) {
       query.where(eq(schema.favorite.userId, userId));
     }
-
     const res = await query;
     return res;
   }

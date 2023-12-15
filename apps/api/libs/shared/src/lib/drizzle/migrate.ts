@@ -8,16 +8,13 @@ import { expand } from 'dotenv-expand';
 async function main() {
   const env = dotenv.config();
   expand(env);
-
   console.log('Migration Start');
 
   const dbUrl = process.env['DB_URL'];
   const pool = new Pool({
     connectionString: dbUrl,
   });
-
   const db = drizzle(pool);
-
   const dir = __dirname + '/migrations';
   await migrate(db, {
     migrationsFolder: dir,

@@ -21,11 +21,9 @@ export class CategoryService {
         .select()
         .from(category)
         .where(eq(category.name, createCategoryDto.name));
-
       if (res.length > 0) {
         throw 'Group has already existed';
       }
-
       return this.conn.insert(category).values(createCategoryDto).returning();
     } catch (err) {
       throw new BadRequestException(err);
@@ -71,7 +69,6 @@ export class CategoryService {
       .from(schema.course)
       .where(eq(schema.course.categoryId, categoryId))
       .leftJoin(schema.user, eq(schema.user.userId, schema.course.teacherId));
-
     return res
       .map((entry) => ({ ...entry, users: entry.users! }))
       .map((entry) => {

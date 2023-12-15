@@ -13,8 +13,8 @@ export class DrizzleService {
     }
 
     const conn = process.env['DB_URL'];
-    console.log({ conn });
     this.assertConnectionStringIsProvided(conn);
+
     const queryClient = postgres(
       conn ?? 'postgres://postgres:123456@localhost:5433/db'
     );

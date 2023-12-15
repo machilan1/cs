@@ -34,7 +34,6 @@ export class CoursesController {
   @Post()
   async create(@Body() createCourseDto: CreateCourseDto) {
     const res = await this.coursesService.create(createCourseDto);
-
     return res[0];
   }
 
@@ -70,7 +69,6 @@ export class CoursesController {
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     const res = await this.coursesService.remove(id);
-
     return res[0];
   }
 }

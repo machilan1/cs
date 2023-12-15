@@ -26,7 +26,6 @@ export class CoursesService {
       .insert(course)
       .values(createCourseDto)
       .returning();
-
     return res;
   }
 
@@ -56,10 +55,10 @@ export class CoursesService {
       query.where(eq(course.categoryId, categoryId));
     }
 
-    const res = (await query).map((x) => ({
-      ...x,
-      teacher: x.teacher!,
-      category: x.category!,
+    const res = (await query).map((entry) => ({
+      ...entry,
+      teacher: entry.teacher!,
+      category: entry.category!,
     }));
     return res;
   }
@@ -76,7 +75,6 @@ export class CoursesService {
       .from(course)
       .where(eq(course.courseId, courseId))
       .leftJoin(user, eq(course.teacherId, user.userId));
-
     return res;
   }
 
@@ -89,8 +87,6 @@ export class CoursesService {
       .set({ ...updateCourseDto })
       .where(eq(course.courseId, courseId))
       .returning();
-    console.log(res);
-
     return res;
   }
 
@@ -99,9 +95,6 @@ export class CoursesService {
       .delete(course)
       .where(eq(course.courseId, courseId))
       .returning();
-
-    console.log(res);
-
     return res;
   }
 
@@ -110,7 +103,6 @@ export class CoursesService {
       .select()
       .from(video)
       .where(eq(video.courseId, courseId));
-
     return res;
   }
 }

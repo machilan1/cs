@@ -12,7 +12,6 @@ import { ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const conn = configService.get('DB_URL');
-        console.log({ conn });
         if (!conn) {
           throw new Error('Conn not provided');
         }

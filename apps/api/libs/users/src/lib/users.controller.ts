@@ -28,11 +28,10 @@ import { UserVideo } from './entities/user-video';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // Todo Return object on create
+  @Post()
   @ApiOperation({ operationId: 'createUser' })
   @ApiBody({ type: CreateUserDto })
   @ApiOkResponse({ type: OmitType(User, ['password'] as const) })
-  @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     const res = await this.usersService.create(createUserDto);
     return res[0];

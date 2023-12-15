@@ -1,7 +1,6 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { DrizzleService } from '@cs/shared';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from '@cs/users';
 import { APP_PIPE } from '@nestjs/core';
@@ -33,7 +32,6 @@ import { PlaylistsModule } from '@cs/playlists';
   ],
   controllers: [],
   providers: [
-    AppService,
     { provide: APP_PIPE, useClass: ValidationPipe },
     { provide: 'drizzle', useClass: DrizzleService },
   ],

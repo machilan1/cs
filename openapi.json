@@ -18,7 +18,14 @@
         },
         "responses": {
           "201": {
-            "description": "Registered"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignUpResponse"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1357,6 +1364,17 @@
           "email",
           "password",
           "name"
+        ]
+      },
+      "SignUpResponse": {
+        "type": "object",
+        "properties": {
+          "jwt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "jwt"
         ]
       },
       "LoginDto": {

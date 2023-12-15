@@ -1,3 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { LoginResponse } from './login.response';
 
-export class SignUpResponse {}
+export class SignUpResponse extends LoginResponse {}

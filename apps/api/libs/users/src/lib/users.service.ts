@@ -26,7 +26,6 @@ export class UsersService {
 
   async create(userData: InsertUser): Promise<Omit<SelectUser, 'password'>[]> {
     const res = await this.conn.insert(user).values(userData).returning();
-
     return res.map((user) => {
       const { password, ...rest } = user;
       return rest;
@@ -35,7 +34,6 @@ export class UsersService {
 
   async findAll(): Promise<Omit<SelectUser, 'password'>[]> {
     const res = await this.conn.select().from(user);
-
     return res.map((user) => {
       const { password, ...rest } = user;
       return rest;
@@ -48,7 +46,6 @@ export class UsersService {
       .from(user)
       .where(eq(user.userId, userId))
       .limit(1);
-
     return res.map((user) => {
       const { password, ...rest } = user;
       return rest;
@@ -61,7 +58,6 @@ export class UsersService {
       .from(user)
       .where(eq(user.email, email))
       .limit(1);
-
     return res.map((user) => {
       const { password, ...rest } = user;
       return rest;

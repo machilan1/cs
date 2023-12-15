@@ -60,7 +60,6 @@ export class PlaylistController {
   @ApiResponse({ type: Playlist })
   async delete(@Param('id', ParseIntPipe) id: number) {
     const res = await this.playlistService.delete(id);
-
     return res[0];
   }
 }

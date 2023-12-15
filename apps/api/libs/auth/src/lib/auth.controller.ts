@@ -11,10 +11,10 @@ import {
 } from '@nestjs/swagger';
 import { LoginResponse } from './models/responses/login.response';
 import { JwtGuard } from './guards/jwt.guard';
-import { user } from '@cs/shared';
 import { ChangeRoleDto } from './dtos/change-role.dto';
 import { AuthorizationService } from './authorization.service';
 import { User } from '@cs/users';
+import { SignUpResponse } from './models/responses/sign-up.response';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -26,7 +26,7 @@ export class AuthController {
 
   @Post('register')
   @ApiOperation({ operationId: 'register' })
-  @ApiCreatedResponse({ description: 'Registered' })
+  @ApiCreatedResponse({ type: SignUpResponse })
   async signUp(@Body() signUpDto: SignUpDto) {
     return this.authService.signUp(signUpDto);
   }
