@@ -14,6 +14,7 @@ import { JwtGuard } from './guards/jwt.guard';
 import { ChangeRoleDto } from './dtos/change-role.dto';
 import { AuthorizationService } from './authorization.service';
 import { User, UsersService } from '@cs/users';
+import { SignUpResponse } from './models/responses/sign-up.response';
 
 @ApiTags('auth')
 @Controller('auth')

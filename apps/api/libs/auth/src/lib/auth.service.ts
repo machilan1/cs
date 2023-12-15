@@ -56,7 +56,7 @@ export class AuthService {
         throw new Error(LOGIN_FAIL);
       }
 
-      const hash = await this.getUserHash(user.userId);
+      const hash = await this.#getUserHash(user.userId);
       if (!hash) {
         throw new Error(LOGIN_FAIL);
       }
