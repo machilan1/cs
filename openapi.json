@@ -65,7 +65,14 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -415,7 +422,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OmitTypeClass"
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
@@ -437,7 +444,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OmitTypeClass"
+                    "$ref": "#/components/schemas/User"
                   }
                 }
               }
@@ -469,10 +476,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OmitTypeClass"
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
+          },
+          "404": {
+            "description": ""
           }
         },
         "tags": [
@@ -508,10 +518,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OmitTypeClass"
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
+          },
+          "404": {
+            "description": ""
           }
         },
         "tags": [
@@ -1385,6 +1398,44 @@
           "jwt"
         ]
       },
+      "User": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "guest",
+              "student",
+              "teacher"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "userId",
+          "role",
+          "name",
+          "email",
+          "createdAt",
+          "avatar"
+        ]
+      },
       "ChangeRoleDto": {
         "type": "object",
         "properties": {
@@ -1425,7 +1476,8 @@
             "type": "string"
           },
           "avatar": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "required": [
@@ -1810,47 +1862,6 @@
           "length",
           "description",
           "fileLink"
-        ]
-      },
-      "User": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "number"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "guest",
-              "student",
-              "teacher"
-            ]
-          },
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "avatar": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "userId",
-          "role",
-          "name",
-          "email",
-          "createdAt",
-          "password",
-          "avatar"
         ]
       },
       "CreateViewRecordDto": {

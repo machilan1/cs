@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { SelectUser } from '@cs/shared';
+import { Exclude } from 'class-transformer';
 
 enum Role {
   guest = 'guest',
@@ -23,11 +24,11 @@ export class User implements SelectUser {
   @ApiProperty({ type: Date })
   createdAt!: Date;
 
-  @ApiProperty({ type: String })
+  @Exclude()
   password!: string;
 
-  @ApiProperty({ type: String })
-  avatar!: string;
+  @ApiProperty({ type: String, nullable: true })
+  avatar!: string | null;
 
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);

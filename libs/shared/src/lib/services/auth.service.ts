@@ -19,6 +19,7 @@ import { LoginResponse } from '../models/login-response';
 import { OmitTypeClass } from '../models/omit-type-class';
 import { register } from '../fn/auth/register';
 import { Register$Params } from '../fn/auth/register';
+import { User } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService extends BaseService {
@@ -85,7 +86,7 @@ export class AuthService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findMe$Response(params?: FindMe$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  findMe$Response(params?: FindMe$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
     return findMe(this.http, this.rootUrl, params, context);
   }
 
@@ -95,9 +96,9 @@ export class AuthService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findMe(params?: FindMe$Params, context?: HttpContext): Observable<void> {
+  findMe(params?: FindMe$Params, context?: HttpContext): Observable<User> {
     return this.findMe$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<User>): User => r.body)
     );
   }
 

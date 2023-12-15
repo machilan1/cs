@@ -26,7 +26,7 @@ export const SHELL_ROUTES: Routes = [
           import('@cs/course').then((m) => m.CourseComponent),
       },
       {
-        path: 'course-detail',
+        path: 'course/:courseId/detail',
         loadComponent: () =>
           import('@cs/course').then((m) => m.CourseDetailComponent),
       },

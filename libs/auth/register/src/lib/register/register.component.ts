@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormControl,
@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { AuthStateService } from 'libs/auth/services/auth.service';
 
 @Component({
   selector: 'cs-register',
@@ -27,6 +28,12 @@ import { RouterLink } from '@angular/router';
             class="border rounded-md p-2"
             placeholder="請輸入信箱"
             formControlName="email"
+          />
+          <input
+            type="text"
+            class="border rounded-md p-2"
+            placeholder="請輸入姓名"
+            formControlName="name"
           />
           <input
             type="text"
@@ -71,13 +78,16 @@ import { RouterLink } from '@angular/router';
   styles: [``],
 })
 export class RegisterComponent {
+  #authStateService = inject(AuthStateService);
+
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
+    name: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     confirm: new FormControl('', Validators.required),
   });
 
-  submit() {
+  async submit() {
     if (this.form.invalid) {
       alert('資料錯誤，請重新輸入');
       return;
@@ -87,6 +97,14 @@ export class RegisterComponent {
       alert('密碼不一致，請重新輸入');
       return;
     }
+
+    alert('註冊中');
+    this.#authStateService.register({
+      email: this.form.value.email!,
+      name: this.form.value.name!,
+      password: this.form.value.password!,
+    });
+    alert('註冊成功');
     console.log(this.form.value);
   }
 }

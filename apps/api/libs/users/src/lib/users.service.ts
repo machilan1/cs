@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
   InsertUser,
@@ -17,83 +22,76 @@ import { Video } from '@cs/videos';
 import { UserCourse } from './entities/user-courses';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import * as schema from '@cs/shared';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject(PG_CONNECTION) private conn: NodePgDatabase<typeof schema>
+    @Inject(PG_CONNECTION) private conn: NodePgDatabase<typeof schema>,
   ) {}
 
-  async create(userData: InsertUser): Promise<Omit<SelectUser, 'password'>[]> {
+  async create(userData: InsertUser): Promise<User> {
     const res = await this.conn.insert(user).values(userData).returning();
-
-    return res.map((user) => {
-      const { password, ...rest } = user;
-      return rest;
-    });
+    if (!res[0]) {
+      throw new BadRequestException('用戶建立失敗');
+    }
+    return new User(res[0]);
   }
 
-  async findAll(): Promise<Omit<SelectUser, 'password'>[]> {
+  async findAll(): Promise<User[]> {
     const res = await this.conn.select().from(user);
-
-    return res.map((user) => {
-      const { password, ...rest } = user;
-      return rest;
-    });
+    return res.map((user) => new User(user));
   }
 
-  async findOne(userId: number): Promise<Omit<SelectUser, 'password'>[]> {
+  async findOne(userId: number): Promise<User | null> {
     const res = await this.conn
       .select()
       .from(user)
       .where(eq(user.userId, userId))
       .limit(1);
 
-    return res.map((user) => {
-      const { password, ...rest } = user;
-      return rest;
-    });
+    if (!res[0]) {
+      return null;
+    }
+    return new User(res[0]);
   }
 
-  async findOntByEmail(email: string): Promise<Omit<SelectUser, 'password'>[]> {
+  async findOneByEmail(email: string): Promise<User | null> {
     const res = await this.conn
       .select()
       .from(user)
       .where(eq(user.email, email))
       .limit(1);
 
-    return res.map((user) => {
-      const { password, ...rest } = user;
-      return rest;
-    });
+    if (!res[0]) {
+      return null;
+    }
+    return new User(res[0]);
   }
 
-  async findOntByName(name: string): Promise<Omit<SelectUser, 'password'>[]> {
+  async findOneByName(name: string): Promise<User | null> {
     const res = await this.conn
       .select()
       .from(user)
       .where(eq(user.name, name))
       .limit(1);
 
-    return res.map((user) => {
-      const { password, ...rest } = user;
-      return rest;
-    });
+    if (!res[0]) {
+      return null;
+    }
+    return new User(res[0]);
   }
 
-  async update(
-    userId: number,
-    updateUserDto: UpdateUserDto
-  ): Promise<Omit<SelectUser, 'password'>[]> {
+  async update(userId: number, updateUserDto: UpdateUserDto): Promise<User> {
     const res = await this.conn
       .update(user)
       .set(updateUserDto)
       .where(eq(user.userId, userId))
       .returning();
-    return res.map((user) => {
-      const { password, ...rest } = user;
-      return rest;
-    });
+    if (!res[0]) {
+      throw new NotFoundException('用戶不存在');
+    }
+    return new User(res[0]);
   }
 
   async remove(userId: number) {

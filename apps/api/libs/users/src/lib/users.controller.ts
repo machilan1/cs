@@ -7,12 +7,14 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  NotFoundException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
   ApiBody,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -31,26 +33,29 @@ export class UsersController {
   // Todo Return object on create
   @ApiOperation({ operationId: 'createUser' })
   @ApiBody({ type: CreateUserDto })
-  @ApiOkResponse({ type: OmitType(User, ['password'] as const) })
+  @ApiOkResponse({ type: User })
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    const res = await this.usersService.create(createUserDto);
-    return res[0];
+  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.usersService.create(createUserDto);
   }
 
   @Get()
   @ApiOperation({ operationId: 'getUsers' })
-  @ApiOkResponse({ type: [OmitType(User, ['password'] as const)] })
-  findAll() {
+  @ApiOkResponse({ type: [User] })
+  findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
   @Get(':id')
   @ApiOperation({ operationId: 'getUserById' })
-  @ApiOkResponse({ type: OmitType(User, ['password'] as const) })
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  @ApiOkResponse({ type: User })
+  @ApiNotFoundResponse()
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<User> {
     const res = await this.usersService.findOne(id);
-    return res[0];
+    if (!res) {
+      throw new NotFoundException();
+    }
+    return res;
   }
 
   @Patch(':id')
@@ -58,14 +63,18 @@ export class UsersController {
   @ApiBody({
     type: PickType(UpdateUserDto, ['email', 'name', 'role'] as const),
   })
-  @ApiOkResponse({ type: OmitType(User, ['password'] as const) })
+  @ApiOkResponse({ type: User })
+  @ApiNotFoundResponse()
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body()
-    updateUserDto: Omit<UpdateUserDto, 'password' | 'userId' | 'createdAt'>
-  ) {
+    updateUserDto: Omit<UpdateUserDto, 'password' | 'userId' | 'createdAt'>,
+  ): Promise<User> {
     const res = await this.usersService.update(id, updateUserDto);
-    return res[0];
+    if (!res) {
+      throw new NotFoundException();
+    }
+    return res;
   }
 
   @Delete(':id')
