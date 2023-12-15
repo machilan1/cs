@@ -7,13 +7,17 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateFavoriteDto } from './dtos/create-favorite.dto';
 import { FavoritesService } from './favorites.service';
 import { Favorite } from './entities/favorite.entity';
 import { FilterFavorite } from './entities/filter-favorite';
+import { JwtGuard } from '@cs/auth';
+
 @ApiTags('favorites')
+@UseGuards(JwtGuard)
 @Controller('favorites')
 export class FavoritesController {
   constructor(private favoritesService: FavoritesService) {}

@@ -20,6 +20,7 @@ export class FileController {
         destination: join(__dirname, 'upload'),
         filename: (req, file, cb) => {
           console.log(file.originalname);
+          console.log(__dirname);
           cb(null, file.originalname);
         },
       }),

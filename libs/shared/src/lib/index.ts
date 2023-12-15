@@ -4,6 +4,7 @@ export { RequestBuilder } from './request-builder';
 export { StrictHttpResponse } from './strict-http-response';
 export { ApiModule } from './api.module';
 export { Category } from './models/category';
+export { ChangeRoleDto } from './models/change-role-dto';
 export { Course } from './models/course';
 export { CourseCategory } from './models/course-category';
 export { CourseTeacher } from './models/course-teacher';

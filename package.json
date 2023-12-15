@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "oai": "ng-openapi-gen --input openapi.json --output libs/shared/src/lib --indexFile=true"
+    "oai": "ng-openapi-gen --input openapi.json --output libs/shared/src/lib --indexFile=true",
+    "generate:migration": "npx drizzle-kit generate:pg --config=./apps/api/libs/shared/src/lib/drizzle/config.ts ",
+    "migrate":"npx tsx ./apps/api/libs/shared/src/lib/drizzle/migrate.ts"
   },
   "private": true,
   "dependencies": {

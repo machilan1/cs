@@ -5,6 +5,8 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideQueryDevTools } from '@ngneat/query-devtools';
 import { provideHttpClient } from '@angular/common/http';
 import { ApiConfiguration } from 'libs/shared/src/lib/api-configuration';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from '../../../../libs/auth/interceptor/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,5 +21,6 @@ export const appConfig: ApplicationConfig = {
         rootUrl: 'http://localhost:3000',
       },
     },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 };

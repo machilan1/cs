@@ -9,6 +9,10 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { changeUserSRole } from '../fn/auth/change-user-s-role';
+import { ChangeUserSRole$Params } from '../fn/auth/change-user-s-role';
+import { findMe } from '../fn/auth/find-me';
+import { FindMe$Params } from '../fn/auth/find-me';
 import { login } from '../fn/auth/login';
 import { Login$Params } from '../fn/auth/login';
 import { LoginResponse } from '../models/login-response';
@@ -30,7 +34,10 @@ export class AuthService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  register$Response(params: Register$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  register$Response(
+    params: Register$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<void>> {
     return register(this.http, this.rootUrl, params, context);
   }
 
@@ -55,7 +62,10 @@ export class AuthService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  login$Response(params: Login$Params, context?: HttpContext): Observable<StrictHttpResponse<LoginResponse>> {
+  login$Response(
+    params: Login$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<LoginResponse>> {
     return login(this.http, this.rootUrl, params, context);
   }
 
@@ -65,10 +75,71 @@ export class AuthService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  login(params: Login$Params, context?: HttpContext): Observable<LoginResponse> {
+  login(
+    params: Login$Params,
+    context?: HttpContext
+  ): Observable<LoginResponse> {
     return this.login$Response(params, context).pipe(
       map((r: StrictHttpResponse<LoginResponse>): LoginResponse => r.body)
     );
   }
 
+  /** Path part for operation `findMe()` */
+  static readonly FindMePath = '/auth/me';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findMe()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findMe$Response(
+    params?: FindMe$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<void>> {
+    return findMe(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findMe$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findMe(params?: FindMe$Params, context?: HttpContext): Observable<void> {
+    return this.findMe$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
+
+  /** Path part for operation `changeUserSRole()` */
+  static readonly ChangeUserSRolePath = '/auth/changeRole';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `changeUserSRole()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  changeUserSRole$Response(
+    params: ChangeUserSRole$Params,
+    context?: HttpContext
+  ): Observable<StrictHttpResponse<void>> {
+    return changeUserSRole(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `changeUserSRole$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  changeUserSRole(
+    params: ChangeUserSRole$Params,
+    context?: HttpContext
+  ): Observable<void> {
+    return this.changeUserSRole$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
 }

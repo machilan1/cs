@@ -33,7 +33,17 @@ export class AuthService {
       }
       const secret = this.encrypt(signUpDto.password);
       const newUser = { ...signUpDto, password: secret } satisfies LoginDto;
-      return this.conn.insert(user).values(newUser);
+
+      const [data] = await this.userService.create(newUser);
+
+      const jwt = await this.jwtService.signAsync(
+        { userId: data.userId },
+        {
+          privateKey: this.configService.get('JWT_SECRET'),
+        }
+      );
+
+      return { jwt };
     } catch (err) {
       return new BadRequestException(err);
     }
@@ -56,9 +66,12 @@ export class AuthService {
         throw new Error(LOGIN_FAIL);
       }
 
-      const jwt = await this.jwtService.signAsync(user, {
-        privateKey: this.configService.get('JWT_SECRET'),
-      });
+      const jwt = await this.jwtService.signAsync(
+        { userId: user.userId },
+        {
+          privateKey: this.configService.get('JWT_SECRET'),
+        }
+      );
       if (!jwt) {
         throw new Error(LOGIN_FAIL);
       }
