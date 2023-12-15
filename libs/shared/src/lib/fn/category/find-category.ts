@@ -14,7 +14,7 @@ export interface FindCategory$Params {
       body: UpdateCategoryDto
 }
 
-export function findCategory(http: HttpClient, rootUrl: string, params: FindCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Category>>> {
+export function findCategory(http: HttpClient, rootUrl: string, params: FindCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Category>> {
   const rb = new RequestBuilder(rootUrl, findCategory.PATH, 'patch');
   if (params) {
     rb.path('id', params.id, {});
@@ -26,7 +26,7 @@ export function findCategory(http: HttpClient, rootUrl: string, params: FindCate
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Category>>;
+      return r as StrictHttpResponse<Category>;
     })
   );
 }

@@ -22,10 +22,14 @@ export class CategoryController {
   @Post()
   @ApiOperation({ operationId: 'createCategory' })
   @ApiBody({ type: CreateCategoryDto })
-  @ApiOkResponse({ type: [Category] })
+  @ApiOkResponse({ type: Category })
   async create(@Body() body: CreateCategoryDto) {
     const res = await this.categoryService.create(body);
-    return res;
+    if (res) {
+      return res[0];
+    } else {
+      return Error;
+    }
   }
 
   @Get()
@@ -39,20 +43,20 @@ export class CategoryController {
   @Patch(':id')
   @ApiOperation({ operationId: 'findCategory' })
   @ApiBody({ type: UpdateCategoryDto })
-  @ApiOkResponse({ type: [Category] })
+  @ApiOkResponse({ type: Category })
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateCategoryDto: UpdateCategoryDto
   ) {
     const res = await this.categoryService.update(id, updateCategoryDto);
-    return res;
+    return res[0];
   }
 
   @Delete(':id')
   @ApiOperation({ operationId: 'deleteCategory' })
-  @ApiOkResponse({ type: [Category] })
+  @ApiOkResponse({ type: Category })
   async delete(@Param('id', ParseIntPipe) id: number) {
     const res = await this.categoryService.delete(id);
-    return res;
+    return res[0];
   }
 }

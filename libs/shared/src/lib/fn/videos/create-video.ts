@@ -13,7 +13,7 @@ export interface CreateVideo$Params {
       body: CreateVideoDto
 }
 
-export function createVideo(http: HttpClient, rootUrl: string, params: CreateVideo$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Video>>> {
+export function createVideo(http: HttpClient, rootUrl: string, params: CreateVideo$Params, context?: HttpContext): Observable<StrictHttpResponse<Video>> {
   const rb = new RequestBuilder(rootUrl, createVideo.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
@@ -24,7 +24,7 @@ export function createVideo(http: HttpClient, rootUrl: string, params: CreateVid
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Video>>;
+      return r as StrictHttpResponse<Video>;
     })
   );
 }

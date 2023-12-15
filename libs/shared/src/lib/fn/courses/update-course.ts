@@ -14,7 +14,7 @@ export interface UpdateCourse$Params {
       body: UpdateCourseDto
 }
 
-export function updateCourse(http: HttpClient, rootUrl: string, params: UpdateCourse$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Course>>> {
+export function updateCourse(http: HttpClient, rootUrl: string, params: UpdateCourse$Params, context?: HttpContext): Observable<StrictHttpResponse<Course>> {
   const rb = new RequestBuilder(rootUrl, updateCourse.PATH, 'patch');
   if (params) {
     rb.path('id', params.id, {});
@@ -26,7 +26,7 @@ export function updateCourse(http: HttpClient, rootUrl: string, params: UpdateCo
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Course>>;
+      return r as StrictHttpResponse<Course>;
     })
   );
 }

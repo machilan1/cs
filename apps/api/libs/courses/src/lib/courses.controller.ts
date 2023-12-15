@@ -32,8 +32,10 @@ export class CoursesController {
   @ApiBody({ type: CreateCourseDto })
   @ApiCreatedResponse({ type: Course })
   @Post()
-  create(@Body() createCourseDto: CreateCourseDto) {
-    return this.coursesService.create(createCourseDto);
+  async create(@Body() createCourseDto: CreateCourseDto) {
+    const res = await this.coursesService.create(createCourseDto);
+
+    return res[0];
   }
 
   @Get()
@@ -45,26 +47,30 @@ export class CoursesController {
 
   @Get(':id')
   @ApiOperation({ operationId: 'getCourseById' })
-  @ApiOkResponse({ type: [CourseWithCategoryTeacher] })
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.coursesService.findOne(id);
+  @ApiOkResponse({ type: CourseWithCategoryTeacher })
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const res = await this.coursesService.findOne(id);
+    return res[0];
   }
 
   @ApiBody({ type: UpdateCourseDto })
   @ApiOperation({ operationId: 'updateCourse' })
-  @ApiOkResponse({ type: [Course] })
+  @ApiOkResponse({ type: Course })
   @Patch(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateCourseDto: UpdateCourseDto
   ) {
-    return this.coursesService.update(id, updateCourseDto);
+    const res = await this.coursesService.update(id, updateCourseDto);
+    return res[0];
   }
 
   @ApiOperation({ operationId: 'deleteCourse' })
-  @ApiOkResponse({ type: [Course] })
+  @ApiOkResponse({ type: Course })
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.coursesService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    const res = await this.coursesService.remove(id);
+
+    return res[0];
   }
 }

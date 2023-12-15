@@ -64,7 +64,7 @@ export class VideosService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createVideo$Response(params: CreateVideo$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Video>>> {
+  createVideo$Response(params: CreateVideo$Params, context?: HttpContext): Observable<StrictHttpResponse<Video>> {
     return createVideo(this.http, this.rootUrl, params, context);
   }
 
@@ -74,9 +74,9 @@ export class VideosService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createVideo(params: CreateVideo$Params, context?: HttpContext): Observable<Array<Video>> {
+  createVideo(params: CreateVideo$Params, context?: HttpContext): Observable<Video> {
     return this.createVideo$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Video>>): Array<Video> => r.body)
+      map((r: StrictHttpResponse<Video>): Video => r.body)
     );
   }
 
@@ -89,7 +89,7 @@ export class VideosService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findOneVideo$Response(params: FindOneVideo$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Video>>> {
+  findOneVideo$Response(params: FindOneVideo$Params, context?: HttpContext): Observable<StrictHttpResponse<Video>> {
     return findOneVideo(this.http, this.rootUrl, params, context);
   }
 
@@ -99,9 +99,9 @@ export class VideosService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findOneVideo(params: FindOneVideo$Params, context?: HttpContext): Observable<Array<Video>> {
+  findOneVideo(params: FindOneVideo$Params, context?: HttpContext): Observable<Video> {
     return this.findOneVideo$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Video>>): Array<Video> => r.body)
+      map((r: StrictHttpResponse<Video>): Video => r.body)
     );
   }
 

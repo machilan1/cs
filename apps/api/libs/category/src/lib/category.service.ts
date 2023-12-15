@@ -15,7 +15,7 @@ export class CategoryService {
 
   async create(
     createCategoryDto: CreateCategoryDto
-  ): Promise<SelectCategory[] | Error> {
+  ): Promise<SelectCategory[]> {
     try {
       const res = await this.conn
         .select()

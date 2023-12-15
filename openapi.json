@@ -89,8 +89,15 @@
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OmitTypeClass"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -119,10 +126,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Category"
-                  }
+                  "$ref": "#/components/schemas/Category"
                 }
               }
             }
@@ -186,10 +190,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Category"
-                  }
+                  "$ref": "#/components/schemas/Category"
                 }
               }
             }
@@ -218,10 +219,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Category"
-                  }
+                  "$ref": "#/components/schemas/Category"
                 }
               }
             }
@@ -317,10 +315,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CourseWithCategoryTeacher"
-                  }
+                  "$ref": "#/components/schemas/CourseWithCategoryTeacher"
                 }
               }
             }
@@ -359,10 +354,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Course"
-                  }
+                  "$ref": "#/components/schemas/Course"
                 }
               }
             }
@@ -391,10 +383,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Course"
-                  }
+                  "$ref": "#/components/schemas/Course"
                 }
               }
             }
@@ -426,10 +415,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OmitTypeClass"
-                  }
+                  "$ref": "#/components/schemas/OmitTypeClass"
                 }
               }
             }
@@ -483,10 +469,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OmitTypeClass"
-                  }
+                  "$ref": "#/components/schemas/OmitTypeClass"
                 }
               }
             }
@@ -525,10 +508,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/OmitTypeClass"
-                  }
+                  "$ref": "#/components/schemas/OmitTypeClass"
                 }
               }
             }
@@ -773,10 +753,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Video"
-                  }
+                  "$ref": "#/components/schemas/Video"
                 }
               }
             }
@@ -840,10 +817,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Video"
-                  }
+                  "$ref": "#/components/schemas/Video"
                 }
               }
             }
@@ -975,10 +949,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ViewRecord"
-                  }
+                  "$ref": "#/components/schemas/ViewRecord"
                 }
               }
             }
@@ -1030,10 +1001,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ViewRecord"
-                  }
+                  "$ref": "#/components/schemas/ViewRecord"
                 }
               }
             }
@@ -1071,10 +1039,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ViewRecord"
-                  }
+                  "$ref": "#/components/schemas/ViewRecord"
                 }
               }
             }
@@ -1102,10 +1067,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ViewRecord"
-                  }
+                  "$ref": "#/components/schemas/ViewRecord"
                 }
               }
             }
@@ -1138,10 +1100,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Favorite"
-                  }
+                  "$ref": "#/components/schemas/Favorite"
                 }
               }
             }
@@ -1205,10 +1164,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Favorite"
-                  }
+                  "$ref": "#/components/schemas/Favorite"
                 }
               }
             }
@@ -1240,10 +1196,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Playlist"
-                  }
+                  "$ref": "#/components/schemas/Playlist"
                 }
               }
             }
@@ -1297,10 +1250,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Playlist"
-                  }
+                  "$ref": "#/components/schemas/Playlist"
                 }
               }
             }
@@ -1339,10 +1289,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Playlist"
-                  }
+                  "$ref": "#/components/schemas/Playlist"
                 }
               }
             }
@@ -1371,10 +1318,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Playlist"
-                  }
+                  "$ref": "#/components/schemas/Playlist"
                 }
               }
             }
@@ -1454,6 +1398,43 @@
         "required": [
           "userId",
           "role"
+        ]
+      },
+      "OmitTypeClass": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "guest",
+              "student",
+              "teacher"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "role",
+          "name",
+          "email",
+          "createdAt",
+          "avatar"
         ]
       },
       "CreateCategoryDto": {
@@ -1652,43 +1633,6 @@
           "name",
           "email",
           "password"
-        ]
-      },
-      "OmitTypeClass": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "number"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "guest",
-              "student",
-              "teacher"
-            ]
-          },
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "avatar": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "userId",
-          "role",
-          "name",
-          "email",
-          "createdAt",
-          "avatar"
         ]
       },
       "PickTypeClass": {

@@ -31,10 +31,11 @@ export class UsersController {
   // Todo Return object on create
   @ApiOperation({ operationId: 'createUser' })
   @ApiBody({ type: CreateUserDto })
-  @ApiOkResponse({ type: [OmitType(User, ['password'] as const)] })
+  @ApiOkResponse({ type: OmitType(User, ['password'] as const) })
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    const res = await this.usersService.create(createUserDto);
+    return res[0];
   }
 
   @Get()
@@ -46,9 +47,10 @@ export class UsersController {
 
   @Get(':id')
   @ApiOperation({ operationId: 'getUserById' })
-  @ApiOkResponse({ type: [OmitType(User, ['password'] as const)] })
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findOne(id);
+  @ApiOkResponse({ type: OmitType(User, ['password'] as const) })
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const res = await this.usersService.findOne(id);
+    return res[0];
   }
 
   @Patch(':id')
@@ -56,20 +58,22 @@ export class UsersController {
   @ApiBody({
     type: PickType(UpdateUserDto, ['email', 'name', 'role'] as const),
   })
-  @ApiOkResponse({ type: [OmitType(User, ['password'] as const)] })
-  update(
+  @ApiOkResponse({ type: OmitType(User, ['password'] as const) })
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body()
     updateUserDto: Omit<UpdateUserDto, 'password' | 'userId' | 'createdAt'>
   ) {
-    return this.usersService.update(id, updateUserDto);
+    const res = await this.usersService.update(id, updateUserDto);
+    return res[0];
   }
 
   @Delete(':id')
   @ApiOperation({ operationId: 'deleteUser' })
   @ApiOkResponse({ type: [OmitType(User, ['password'] as const)] })
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    const res = await this.usersService.remove(id);
+    return res[0];
   }
 
   @ApiOperation({

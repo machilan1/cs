@@ -14,7 +14,7 @@ export interface ViewRecordControllerUpdateOne$Params {
       body: UpdateViewRecordDto
 }
 
-export function viewRecordControllerUpdateOne(http: HttpClient, rootUrl: string, params: ViewRecordControllerUpdateOne$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ViewRecord>>> {
+export function viewRecordControllerUpdateOne(http: HttpClient, rootUrl: string, params: ViewRecordControllerUpdateOne$Params, context?: HttpContext): Observable<StrictHttpResponse<ViewRecord>> {
   const rb = new RequestBuilder(rootUrl, viewRecordControllerUpdateOne.PATH, 'patch');
   if (params) {
     rb.path('id', params.id, {});
@@ -26,7 +26,7 @@ export function viewRecordControllerUpdateOne(http: HttpClient, rootUrl: string,
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<ViewRecord>>;
+      return r as StrictHttpResponse<ViewRecord>;
     })
   );
 }

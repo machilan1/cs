@@ -59,7 +59,7 @@ export class CategoryService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createCategory$Response(params: CreateCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Category>>> {
+  createCategory$Response(params: CreateCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Category>> {
     return createCategory(this.http, this.rootUrl, params, context);
   }
 
@@ -69,9 +69,9 @@ export class CategoryService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createCategory(params: CreateCategory$Params, context?: HttpContext): Observable<Array<Category>> {
+  createCategory(params: CreateCategory$Params, context?: HttpContext): Observable<Category> {
     return this.createCategory$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Category>>): Array<Category> => r.body)
+      map((r: StrictHttpResponse<Category>): Category => r.body)
     );
   }
 
@@ -84,7 +84,7 @@ export class CategoryService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  deleteCategory$Response(params: DeleteCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Category>>> {
+  deleteCategory$Response(params: DeleteCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Category>> {
     return deleteCategory(this.http, this.rootUrl, params, context);
   }
 
@@ -94,9 +94,9 @@ export class CategoryService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  deleteCategory(params: DeleteCategory$Params, context?: HttpContext): Observable<Array<Category>> {
+  deleteCategory(params: DeleteCategory$Params, context?: HttpContext): Observable<Category> {
     return this.deleteCategory$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Category>>): Array<Category> => r.body)
+      map((r: StrictHttpResponse<Category>): Category => r.body)
     );
   }
 
@@ -109,7 +109,7 @@ export class CategoryService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findCategory$Response(params: FindCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Category>>> {
+  findCategory$Response(params: FindCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Category>> {
     return findCategory(this.http, this.rootUrl, params, context);
   }
 
@@ -119,9 +119,9 @@ export class CategoryService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findCategory(params: FindCategory$Params, context?: HttpContext): Observable<Array<Category>> {
+  findCategory(params: FindCategory$Params, context?: HttpContext): Observable<Category> {
     return this.findCategory$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Category>>): Array<Category> => r.body)
+      map((r: StrictHttpResponse<Category>): Category => r.body)
     );
   }
 

@@ -13,7 +13,7 @@ export interface AddToFavorite$Params {
       body: CreateFavoriteDto
 }
 
-export function addToFavorite(http: HttpClient, rootUrl: string, params: AddToFavorite$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Favorite>>> {
+export function addToFavorite(http: HttpClient, rootUrl: string, params: AddToFavorite$Params, context?: HttpContext): Observable<StrictHttpResponse<Favorite>> {
   const rb = new RequestBuilder(rootUrl, addToFavorite.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
@@ -24,7 +24,7 @@ export function addToFavorite(http: HttpClient, rootUrl: string, params: AddToFa
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Favorite>>;
+      return r as StrictHttpResponse<Favorite>;
     })
   );
 }

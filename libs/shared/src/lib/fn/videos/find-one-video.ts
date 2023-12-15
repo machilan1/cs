@@ -12,7 +12,7 @@ export interface FindOneVideo$Params {
   id: number;
 }
 
-export function findOneVideo(http: HttpClient, rootUrl: string, params: FindOneVideo$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Video>>> {
+export function findOneVideo(http: HttpClient, rootUrl: string, params: FindOneVideo$Params, context?: HttpContext): Observable<StrictHttpResponse<Video>> {
   const rb = new RequestBuilder(rootUrl, findOneVideo.PATH, 'get');
   if (params) {
     rb.path('id', params.id, {});
@@ -23,7 +23,7 @@ export function findOneVideo(http: HttpClient, rootUrl: string, params: FindOneV
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Video>>;
+      return r as StrictHttpResponse<Video>;
     })
   );
 }

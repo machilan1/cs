@@ -12,7 +12,7 @@ export interface ViewRecordControllerDeleteOne$Params {
   id: number;
 }
 
-export function viewRecordControllerDeleteOne(http: HttpClient, rootUrl: string, params: ViewRecordControllerDeleteOne$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ViewRecord>>> {
+export function viewRecordControllerDeleteOne(http: HttpClient, rootUrl: string, params: ViewRecordControllerDeleteOne$Params, context?: HttpContext): Observable<StrictHttpResponse<ViewRecord>> {
   const rb = new RequestBuilder(rootUrl, viewRecordControllerDeleteOne.PATH, 'delete');
   if (params) {
     rb.path('id', params.id, {});
@@ -23,7 +23,7 @@ export function viewRecordControllerDeleteOne(http: HttpClient, rootUrl: string,
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<ViewRecord>>;
+      return r as StrictHttpResponse<ViewRecord>;
     })
   );
 }

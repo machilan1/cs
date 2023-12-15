@@ -16,6 +16,7 @@ import { FindMe$Params } from '../fn/auth/find-me';
 import { login } from '../fn/auth/login';
 import { Login$Params } from '../fn/auth/login';
 import { LoginResponse } from '../models/login-response';
+import { OmitTypeClass } from '../models/omit-type-class';
 import { register } from '../fn/auth/register';
 import { Register$Params } from '../fn/auth/register';
 
@@ -34,10 +35,7 @@ export class AuthService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  register$Response(
-    params: Register$Params,
-    context?: HttpContext
-  ): Observable<StrictHttpResponse<void>> {
+  register$Response(params: Register$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
     return register(this.http, this.rootUrl, params, context);
   }
 
@@ -62,10 +60,7 @@ export class AuthService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  login$Response(
-    params: Login$Params,
-    context?: HttpContext
-  ): Observable<StrictHttpResponse<LoginResponse>> {
+  login$Response(params: Login$Params, context?: HttpContext): Observable<StrictHttpResponse<LoginResponse>> {
     return login(this.http, this.rootUrl, params, context);
   }
 
@@ -75,10 +70,7 @@ export class AuthService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  login(
-    params: Login$Params,
-    context?: HttpContext
-  ): Observable<LoginResponse> {
+  login(params: Login$Params, context?: HttpContext): Observable<LoginResponse> {
     return this.login$Response(params, context).pipe(
       map((r: StrictHttpResponse<LoginResponse>): LoginResponse => r.body)
     );
@@ -93,10 +85,7 @@ export class AuthService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findMe$Response(
-    params?: FindMe$Params,
-    context?: HttpContext
-  ): Observable<StrictHttpResponse<void>> {
+  findMe$Response(params?: FindMe$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
     return findMe(this.http, this.rootUrl, params, context);
   }
 
@@ -121,10 +110,7 @@ export class AuthService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  changeUserSRole$Response(
-    params: ChangeUserSRole$Params,
-    context?: HttpContext
-  ): Observable<StrictHttpResponse<void>> {
+  changeUserSRole$Response(params: ChangeUserSRole$Params, context?: HttpContext): Observable<StrictHttpResponse<OmitTypeClass>> {
     return changeUserSRole(this.http, this.rootUrl, params, context);
   }
 
@@ -134,12 +120,10 @@ export class AuthService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  changeUserSRole(
-    params: ChangeUserSRole$Params,
-    context?: HttpContext
-  ): Observable<void> {
+  changeUserSRole(params: ChangeUserSRole$Params, context?: HttpContext): Observable<OmitTypeClass> {
     return this.changeUserSRole$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<OmitTypeClass>): OmitTypeClass => r.body)
     );
   }
+
 }

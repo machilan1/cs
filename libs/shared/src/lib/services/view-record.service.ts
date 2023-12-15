@@ -61,7 +61,7 @@ export class ViewRecordService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  viewRecordControllerCreate$Response(params: ViewRecordControllerCreate$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ViewRecord>>> {
+  viewRecordControllerCreate$Response(params: ViewRecordControllerCreate$Params, context?: HttpContext): Observable<StrictHttpResponse<ViewRecord>> {
     return viewRecordControllerCreate(this.http, this.rootUrl, params, context);
   }
 
@@ -71,9 +71,9 @@ export class ViewRecordService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  viewRecordControllerCreate(params: ViewRecordControllerCreate$Params, context?: HttpContext): Observable<Array<ViewRecord>> {
+  viewRecordControllerCreate(params: ViewRecordControllerCreate$Params, context?: HttpContext): Observable<ViewRecord> {
     return this.viewRecordControllerCreate$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ViewRecord>>): Array<ViewRecord> => r.body)
+      map((r: StrictHttpResponse<ViewRecord>): ViewRecord => r.body)
     );
   }
 
@@ -86,7 +86,7 @@ export class ViewRecordService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  viewRecordControllerGetOne$Response(params: ViewRecordControllerGetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ViewRecord>>> {
+  viewRecordControllerGetOne$Response(params: ViewRecordControllerGetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<ViewRecord>> {
     return viewRecordControllerGetOne(this.http, this.rootUrl, params, context);
   }
 
@@ -96,9 +96,9 @@ export class ViewRecordService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  viewRecordControllerGetOne(params: ViewRecordControllerGetOne$Params, context?: HttpContext): Observable<Array<ViewRecord>> {
+  viewRecordControllerGetOne(params: ViewRecordControllerGetOne$Params, context?: HttpContext): Observable<ViewRecord> {
     return this.viewRecordControllerGetOne$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ViewRecord>>): Array<ViewRecord> => r.body)
+      map((r: StrictHttpResponse<ViewRecord>): ViewRecord => r.body)
     );
   }
 
@@ -111,7 +111,7 @@ export class ViewRecordService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  viewRecordControllerDeleteOne$Response(params: ViewRecordControllerDeleteOne$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ViewRecord>>> {
+  viewRecordControllerDeleteOne$Response(params: ViewRecordControllerDeleteOne$Params, context?: HttpContext): Observable<StrictHttpResponse<ViewRecord>> {
     return viewRecordControllerDeleteOne(this.http, this.rootUrl, params, context);
   }
 
@@ -121,9 +121,9 @@ export class ViewRecordService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  viewRecordControllerDeleteOne(params: ViewRecordControllerDeleteOne$Params, context?: HttpContext): Observable<Array<ViewRecord>> {
+  viewRecordControllerDeleteOne(params: ViewRecordControllerDeleteOne$Params, context?: HttpContext): Observable<ViewRecord> {
     return this.viewRecordControllerDeleteOne$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ViewRecord>>): Array<ViewRecord> => r.body)
+      map((r: StrictHttpResponse<ViewRecord>): ViewRecord => r.body)
     );
   }
 
@@ -136,7 +136,7 @@ export class ViewRecordService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  viewRecordControllerUpdateOne$Response(params: ViewRecordControllerUpdateOne$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ViewRecord>>> {
+  viewRecordControllerUpdateOne$Response(params: ViewRecordControllerUpdateOne$Params, context?: HttpContext): Observable<StrictHttpResponse<ViewRecord>> {
     return viewRecordControllerUpdateOne(this.http, this.rootUrl, params, context);
   }
 
@@ -146,9 +146,9 @@ export class ViewRecordService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  viewRecordControllerUpdateOne(params: ViewRecordControllerUpdateOne$Params, context?: HttpContext): Observable<Array<ViewRecord>> {
+  viewRecordControllerUpdateOne(params: ViewRecordControllerUpdateOne$Params, context?: HttpContext): Observable<ViewRecord> {
     return this.viewRecordControllerUpdateOne$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ViewRecord>>): Array<ViewRecord> => r.body)
+      map((r: StrictHttpResponse<ViewRecord>): ViewRecord => r.body)
     );
   }
 

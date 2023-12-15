@@ -12,7 +12,7 @@ export interface DeleteCategory$Params {
   id: number;
 }
 
-export function deleteCategory(http: HttpClient, rootUrl: string, params: DeleteCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Category>>> {
+export function deleteCategory(http: HttpClient, rootUrl: string, params: DeleteCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Category>> {
   const rb = new RequestBuilder(rootUrl, deleteCategory.PATH, 'delete');
   if (params) {
     rb.path('id', params.id, {});
@@ -23,7 +23,7 @@ export function deleteCategory(http: HttpClient, rootUrl: string, params: Delete
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Category>>;
+      return r as StrictHttpResponse<Category>;
     })
   );
 }

@@ -12,7 +12,7 @@ export interface DeletePlaylist$Params {
   id: number;
 }
 
-export function deletePlaylist(http: HttpClient, rootUrl: string, params: DeletePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Playlist>>> {
+export function deletePlaylist(http: HttpClient, rootUrl: string, params: DeletePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Playlist>> {
   const rb = new RequestBuilder(rootUrl, deletePlaylist.PATH, 'delete');
   if (params) {
     rb.path('id', params.id, {});
@@ -23,7 +23,7 @@ export function deletePlaylist(http: HttpClient, rootUrl: string, params: Delete
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Playlist>>;
+      return r as StrictHttpResponse<Playlist>;
     })
   );
 }

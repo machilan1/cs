@@ -73,7 +73,7 @@ export class UsersService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createUser$Response(params: CreateUser$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OmitTypeClass>>> {
+  createUser$Response(params: CreateUser$Params, context?: HttpContext): Observable<StrictHttpResponse<OmitTypeClass>> {
     return createUser(this.http, this.rootUrl, params, context);
   }
 
@@ -83,9 +83,9 @@ export class UsersService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createUser(params: CreateUser$Params, context?: HttpContext): Observable<Array<OmitTypeClass>> {
+  createUser(params: CreateUser$Params, context?: HttpContext): Observable<OmitTypeClass> {
     return this.createUser$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<OmitTypeClass>>): Array<OmitTypeClass> => r.body)
+      map((r: StrictHttpResponse<OmitTypeClass>): OmitTypeClass => r.body)
     );
   }
 
@@ -98,7 +98,7 @@ export class UsersService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getUserById$Response(params: GetUserById$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OmitTypeClass>>> {
+  getUserById$Response(params: GetUserById$Params, context?: HttpContext): Observable<StrictHttpResponse<OmitTypeClass>> {
     return getUserById(this.http, this.rootUrl, params, context);
   }
 
@@ -108,9 +108,9 @@ export class UsersService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getUserById(params: GetUserById$Params, context?: HttpContext): Observable<Array<OmitTypeClass>> {
+  getUserById(params: GetUserById$Params, context?: HttpContext): Observable<OmitTypeClass> {
     return this.getUserById$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<OmitTypeClass>>): Array<OmitTypeClass> => r.body)
+      map((r: StrictHttpResponse<OmitTypeClass>): OmitTypeClass => r.body)
     );
   }
 
@@ -148,7 +148,7 @@ export class UsersService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateUser$Response(params: UpdateUser$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OmitTypeClass>>> {
+  updateUser$Response(params: UpdateUser$Params, context?: HttpContext): Observable<StrictHttpResponse<OmitTypeClass>> {
     return updateUser(this.http, this.rootUrl, params, context);
   }
 
@@ -158,9 +158,9 @@ export class UsersService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateUser(params: UpdateUser$Params, context?: HttpContext): Observable<Array<OmitTypeClass>> {
+  updateUser(params: UpdateUser$Params, context?: HttpContext): Observable<OmitTypeClass> {
     return this.updateUser$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<OmitTypeClass>>): Array<OmitTypeClass> => r.body)
+      map((r: StrictHttpResponse<OmitTypeClass>): OmitTypeClass => r.body)
     );
   }
 

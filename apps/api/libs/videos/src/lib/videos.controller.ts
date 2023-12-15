@@ -24,11 +24,11 @@ export class VideosController {
 
   @Post()
   @ApiBody({ type: CreateVideoDto })
-  @ApiOkResponse({ type: [Video] })
+  @ApiOkResponse({ type: Video })
   @ApiOperation({ operationId: 'createVideo' })
-  async createVideo(@Body() createVideoDto: CreateVideoDto): Promise<Video[]> {
+  async createVideo(@Body() createVideoDto: CreateVideoDto): Promise<Video> {
     const res = await this.videosService.create(createVideoDto);
-    return res;
+    return res[0];
   }
 
   @Get()
@@ -40,12 +40,12 @@ export class VideosController {
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: [Video] })
+  @ApiOkResponse({ type: Video })
   @ApiOperation({ operationId: 'findOneVideo' })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const res = await this.videosService.findOne(id);
 
-    return res;
+    return res[0];
   }
 
   @Patch(':id')
@@ -57,14 +57,14 @@ export class VideosController {
     @Param('id', ParseIntPipe) id: number
   ) {
     const res = await this.videosService.update(id, updateVideoDto);
-    return res;
+    return res[0];
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: Video })
   async deleteVideo(@Param('id', ParseIntPipe) id: number) {
     const res = await this.videosService.delete(id);
-    return res;
+    return res[0];
   }
 
   @ApiOperation({ summary: '讀取所有看過特定一支影片的學生' })

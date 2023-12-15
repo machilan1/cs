@@ -7,12 +7,14 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiTags,
+  OmitType,
 } from '@nestjs/swagger';
 import { LoginResponse } from './models/responses/login.response';
 import { JwtGuard } from './guards/jwt.guard';
 import { user } from '@cs/shared';
 import { ChangeRoleDto } from './dtos/change-role.dto';
 import { AuthorizationService } from './authorization.service';
+import { User } from '@cs/users';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -41,14 +43,15 @@ export class AuthController {
   @ApiOperation({ operationId: 'findMe' })
   @ApiOkResponse()
   async findMe(@Req() req) {
-    console.log(req);
     const { userId } = req['user']['user'];
     return { userId };
   }
 
   @Post('changeRole')
   @ApiOperation({ operationId: "Change user's role" })
-  changeRole(@Body() { userId, role }: ChangeRoleDto) {
-    return this.authorizationService.setUserRole(userId, role);
+  @ApiOkResponse({ type: OmitType(User, ['password'] as const) })
+  async changeRole(@Body() { userId, role }: ChangeRoleDto) {
+    const res = await this.authorizationService.setUserRole(userId, role);
+    return res[0];
   }
 }

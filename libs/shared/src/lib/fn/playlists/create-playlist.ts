@@ -13,7 +13,7 @@ export interface CreatePlaylist$Params {
       body: CreatePlaylistDto
 }
 
-export function createPlaylist(http: HttpClient, rootUrl: string, params: CreatePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Playlist>>> {
+export function createPlaylist(http: HttpClient, rootUrl: string, params: CreatePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Playlist>> {
   const rb = new RequestBuilder(rootUrl, createPlaylist.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
@@ -24,7 +24,7 @@ export function createPlaylist(http: HttpClient, rootUrl: string, params: Create
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Playlist>>;
+      return r as StrictHttpResponse<Playlist>;
     })
   );
 }

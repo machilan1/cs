@@ -12,7 +12,7 @@ export interface FavoritesControllerDelete$Params {
   id: number;
 }
 
-export function favoritesControllerDelete(http: HttpClient, rootUrl: string, params: FavoritesControllerDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Favorite>>> {
+export function favoritesControllerDelete(http: HttpClient, rootUrl: string, params: FavoritesControllerDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<Favorite>> {
   const rb = new RequestBuilder(rootUrl, favoritesControllerDelete.PATH, 'delete');
   if (params) {
     rb.path('id', params.id, {});
@@ -23,7 +23,7 @@ export function favoritesControllerDelete(http: HttpClient, rootUrl: string, par
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Favorite>>;
+      return r as StrictHttpResponse<Favorite>;
     })
   );
 }

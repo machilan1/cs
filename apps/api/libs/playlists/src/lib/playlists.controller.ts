@@ -21,10 +21,11 @@ export class PlaylistController {
 
   @Post()
   @ApiOperation({ operationId: 'createPlaylist' })
-  @ApiResponse({ type: [Playlist] })
+  @ApiResponse({ type: Playlist })
   @ApiBody({ type: CreatePlaylistDto })
-  create(@Body() createPlaylist: CreatePlaylistDto) {
-    return this.playlistService.create(createPlaylist);
+  async create(@Body() createPlaylist: CreatePlaylistDto) {
+    const res = await this.playlistService.create(createPlaylist);
+    return res[0];
   }
 
   @Get()
@@ -36,26 +37,30 @@ export class PlaylistController {
 
   @Get(':id')
   @ApiOperation({ operationId: 'findOnePlaylist' })
-  @ApiResponse({ type: [Playlist] })
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.playlistService.findOne(id);
+  @ApiResponse({ type: Playlist })
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const res = await this.playlistService.findOne(id);
+    return res[0];
   }
 
   @Patch(':id')
   @ApiOperation({ operationId: 'updatePlaylist' })
-  @ApiResponse({ type: [Playlist] })
+  @ApiResponse({ type: Playlist })
   @ApiBody({ type: UpdatePlaylistDto })
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updatePlayDto: UpdatePlaylistDto
   ) {
-    return this.playlistService.update(id, updatePlayDto);
+    const res = await this.playlistService.update(id, updatePlayDto);
+    return res[0];
   }
 
   @Delete(':id')
   @ApiOperation({ operationId: 'deletePlaylist' })
-  @ApiResponse({ type: [Playlist] })
-  delete(@Param('id', ParseIntPipe) id: number) {
-    return this.playlistService.delete(id);
+  @ApiResponse({ type: Playlist })
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    const res = await this.playlistService.delete(id);
+
+    return res[0];
   }
 }

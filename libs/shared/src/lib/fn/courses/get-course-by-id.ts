@@ -12,7 +12,7 @@ export interface GetCourseById$Params {
   id: number;
 }
 
-export function getCourseById(http: HttpClient, rootUrl: string, params: GetCourseById$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CourseWithCategoryTeacher>>> {
+export function getCourseById(http: HttpClient, rootUrl: string, params: GetCourseById$Params, context?: HttpContext): Observable<StrictHttpResponse<CourseWithCategoryTeacher>> {
   const rb = new RequestBuilder(rootUrl, getCourseById.PATH, 'get');
   if (params) {
     rb.path('id', params.id, {});
@@ -23,7 +23,7 @@ export function getCourseById(http: HttpClient, rootUrl: string, params: GetCour
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<CourseWithCategoryTeacher>>;
+      return r as StrictHttpResponse<CourseWithCategoryTeacher>;
     })
   );
 }

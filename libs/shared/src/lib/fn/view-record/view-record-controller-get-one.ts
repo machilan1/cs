@@ -12,7 +12,7 @@ export interface ViewRecordControllerGetOne$Params {
   id: number;
 }
 
-export function viewRecordControllerGetOne(http: HttpClient, rootUrl: string, params: ViewRecordControllerGetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ViewRecord>>> {
+export function viewRecordControllerGetOne(http: HttpClient, rootUrl: string, params: ViewRecordControllerGetOne$Params, context?: HttpContext): Observable<StrictHttpResponse<ViewRecord>> {
   const rb = new RequestBuilder(rootUrl, viewRecordControllerGetOne.PATH, 'get');
   if (params) {
     rb.path('id', params.id, {});
@@ -23,7 +23,7 @@ export function viewRecordControllerGetOne(http: HttpClient, rootUrl: string, pa
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<ViewRecord>>;
+      return r as StrictHttpResponse<ViewRecord>;
     })
   );
 }

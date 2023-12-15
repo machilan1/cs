@@ -13,7 +13,7 @@ export interface CreateUser$Params {
       body: CreateUserDto
 }
 
-export function createUser(http: HttpClient, rootUrl: string, params: CreateUser$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OmitTypeClass>>> {
+export function createUser(http: HttpClient, rootUrl: string, params: CreateUser$Params, context?: HttpContext): Observable<StrictHttpResponse<OmitTypeClass>> {
   const rb = new RequestBuilder(rootUrl, createUser.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
@@ -24,7 +24,7 @@ export function createUser(http: HttpClient, rootUrl: string, params: CreateUser
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<OmitTypeClass>>;
+      return r as StrictHttpResponse<OmitTypeClass>;
     })
   );
 }

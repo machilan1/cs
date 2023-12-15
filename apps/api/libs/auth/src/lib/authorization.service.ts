@@ -16,6 +16,11 @@ export class AuthorizationService {
       .set({ role })
       .where(eq(schema.user.userId, userId))
       .returning();
-    return res;
+
+    const temp = res.map((entry) => {
+      const { password, ...others } = entry;
+      return others;
+    });
+    return temp;
   }
 }

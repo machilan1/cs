@@ -61,7 +61,7 @@ export class PlaylistsService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createPlaylist$Response(params: CreatePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Playlist>>> {
+  createPlaylist$Response(params: CreatePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Playlist>> {
     return createPlaylist(this.http, this.rootUrl, params, context);
   }
 
@@ -71,9 +71,9 @@ export class PlaylistsService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createPlaylist(params: CreatePlaylist$Params, context?: HttpContext): Observable<Array<Playlist>> {
+  createPlaylist(params: CreatePlaylist$Params, context?: HttpContext): Observable<Playlist> {
     return this.createPlaylist$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Playlist>>): Array<Playlist> => r.body)
+      map((r: StrictHttpResponse<Playlist>): Playlist => r.body)
     );
   }
 
@@ -86,7 +86,7 @@ export class PlaylistsService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findOnePlaylist$Response(params: FindOnePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Playlist>>> {
+  findOnePlaylist$Response(params: FindOnePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Playlist>> {
     return findOnePlaylist(this.http, this.rootUrl, params, context);
   }
 
@@ -96,9 +96,9 @@ export class PlaylistsService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findOnePlaylist(params: FindOnePlaylist$Params, context?: HttpContext): Observable<Array<Playlist>> {
+  findOnePlaylist(params: FindOnePlaylist$Params, context?: HttpContext): Observable<Playlist> {
     return this.findOnePlaylist$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Playlist>>): Array<Playlist> => r.body)
+      map((r: StrictHttpResponse<Playlist>): Playlist => r.body)
     );
   }
 
@@ -111,7 +111,7 @@ export class PlaylistsService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  deletePlaylist$Response(params: DeletePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Playlist>>> {
+  deletePlaylist$Response(params: DeletePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Playlist>> {
     return deletePlaylist(this.http, this.rootUrl, params, context);
   }
 
@@ -121,9 +121,9 @@ export class PlaylistsService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  deletePlaylist(params: DeletePlaylist$Params, context?: HttpContext): Observable<Array<Playlist>> {
+  deletePlaylist(params: DeletePlaylist$Params, context?: HttpContext): Observable<Playlist> {
     return this.deletePlaylist$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Playlist>>): Array<Playlist> => r.body)
+      map((r: StrictHttpResponse<Playlist>): Playlist => r.body)
     );
   }
 
@@ -136,7 +136,7 @@ export class PlaylistsService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updatePlaylist$Response(params: UpdatePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Playlist>>> {
+  updatePlaylist$Response(params: UpdatePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Playlist>> {
     return updatePlaylist(this.http, this.rootUrl, params, context);
   }
 
@@ -146,9 +146,9 @@ export class PlaylistsService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updatePlaylist(params: UpdatePlaylist$Params, context?: HttpContext): Observable<Array<Playlist>> {
+  updatePlaylist(params: UpdatePlaylist$Params, context?: HttpContext): Observable<Playlist> {
     return this.updatePlaylist$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Playlist>>): Array<Playlist> => r.body)
+      map((r: StrictHttpResponse<Playlist>): Playlist => r.body)
     );
   }
 

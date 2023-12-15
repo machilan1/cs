@@ -87,7 +87,7 @@ export class CoursesService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getCourseById$Response(params: GetCourseById$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CourseWithCategoryTeacher>>> {
+  getCourseById$Response(params: GetCourseById$Params, context?: HttpContext): Observable<StrictHttpResponse<CourseWithCategoryTeacher>> {
     return getCourseById(this.http, this.rootUrl, params, context);
   }
 
@@ -97,9 +97,9 @@ export class CoursesService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getCourseById(params: GetCourseById$Params, context?: HttpContext): Observable<Array<CourseWithCategoryTeacher>> {
+  getCourseById(params: GetCourseById$Params, context?: HttpContext): Observable<CourseWithCategoryTeacher> {
     return this.getCourseById$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<CourseWithCategoryTeacher>>): Array<CourseWithCategoryTeacher> => r.body)
+      map((r: StrictHttpResponse<CourseWithCategoryTeacher>): CourseWithCategoryTeacher => r.body)
     );
   }
 
@@ -112,7 +112,7 @@ export class CoursesService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  deleteCourse$Response(params: DeleteCourse$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Course>>> {
+  deleteCourse$Response(params: DeleteCourse$Params, context?: HttpContext): Observable<StrictHttpResponse<Course>> {
     return deleteCourse(this.http, this.rootUrl, params, context);
   }
 
@@ -122,9 +122,9 @@ export class CoursesService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  deleteCourse(params: DeleteCourse$Params, context?: HttpContext): Observable<Array<Course>> {
+  deleteCourse(params: DeleteCourse$Params, context?: HttpContext): Observable<Course> {
     return this.deleteCourse$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Course>>): Array<Course> => r.body)
+      map((r: StrictHttpResponse<Course>): Course => r.body)
     );
   }
 
@@ -137,7 +137,7 @@ export class CoursesService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateCourse$Response(params: UpdateCourse$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Course>>> {
+  updateCourse$Response(params: UpdateCourse$Params, context?: HttpContext): Observable<StrictHttpResponse<Course>> {
     return updateCourse(this.http, this.rootUrl, params, context);
   }
 
@@ -147,9 +147,9 @@ export class CoursesService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  updateCourse(params: UpdateCourse$Params, context?: HttpContext): Observable<Array<Course>> {
+  updateCourse(params: UpdateCourse$Params, context?: HttpContext): Observable<Course> {
     return this.updateCourse$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Course>>): Array<Course> => r.body)
+      map((r: StrictHttpResponse<Course>): Course => r.body)
     );
   }
 

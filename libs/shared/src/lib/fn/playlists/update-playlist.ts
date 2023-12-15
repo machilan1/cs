@@ -14,7 +14,7 @@ export interface UpdatePlaylist$Params {
       body: UpdatePlaylistDto
 }
 
-export function updatePlaylist(http: HttpClient, rootUrl: string, params: UpdatePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Playlist>>> {
+export function updatePlaylist(http: HttpClient, rootUrl: string, params: UpdatePlaylist$Params, context?: HttpContext): Observable<StrictHttpResponse<Playlist>> {
   const rb = new RequestBuilder(rootUrl, updatePlaylist.PATH, 'patch');
   if (params) {
     rb.path('id', params.id, {});
@@ -26,7 +26,7 @@ export function updatePlaylist(http: HttpClient, rootUrl: string, params: Update
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Playlist>>;
+      return r as StrictHttpResponse<Playlist>;
     })
   );
 }

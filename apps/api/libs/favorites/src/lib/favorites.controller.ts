@@ -24,14 +24,15 @@ export class FavoritesController {
 
   @Post()
   @ApiBody({ type: CreateFavoriteDto })
-  @ApiOkResponse({ type: [Favorite] })
+  @ApiOkResponse({ type: Favorite })
   @ApiOperation({
     summary: 'Add favorite with video id and user id.',
     description: 'Add a video to favorite list for a user',
     operationId: 'addToFavorite',
   })
-  create(@Body() createFavoriteDto: CreateFavoriteDto) {
-    return this.favoritesService.create(createFavoriteDto);
+  async create(@Body() createFavoriteDto: CreateFavoriteDto) {
+    const res = await this.favoritesService.create(createFavoriteDto);
+    return res[0];
   }
 
   @Get()
@@ -45,11 +46,12 @@ export class FavoritesController {
   }
 
   @Delete(':id')
-  @ApiOkResponse({ type: [Favorite] })
+  @ApiOkResponse({ type: Favorite })
   @ApiOperation({
     summary: 'Remove favorite with id',
   })
-  delete(@Param('id', ParseIntPipe) id: number) {
-    return this.favoritesService.delete(id);
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    const res = await this.favoritesService.delete(id);
+    return res[0];
   }
 }

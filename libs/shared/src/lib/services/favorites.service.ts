@@ -69,7 +69,7 @@ export class FavoritesService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addToFavorite$Response(params: AddToFavorite$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Favorite>>> {
+  addToFavorite$Response(params: AddToFavorite$Params, context?: HttpContext): Observable<StrictHttpResponse<Favorite>> {
     return addToFavorite(this.http, this.rootUrl, params, context);
   }
 
@@ -83,9 +83,9 @@ export class FavoritesService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addToFavorite(params: AddToFavorite$Params, context?: HttpContext): Observable<Array<Favorite>> {
+  addToFavorite(params: AddToFavorite$Params, context?: HttpContext): Observable<Favorite> {
     return this.addToFavorite$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Favorite>>): Array<Favorite> => r.body)
+      map((r: StrictHttpResponse<Favorite>): Favorite => r.body)
     );
   }
 
@@ -102,7 +102,7 @@ export class FavoritesService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  favoritesControllerDelete$Response(params: FavoritesControllerDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Favorite>>> {
+  favoritesControllerDelete$Response(params: FavoritesControllerDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<Favorite>> {
     return favoritesControllerDelete(this.http, this.rootUrl, params, context);
   }
 
@@ -116,9 +116,9 @@ export class FavoritesService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  favoritesControllerDelete(params: FavoritesControllerDelete$Params, context?: HttpContext): Observable<Array<Favorite>> {
+  favoritesControllerDelete(params: FavoritesControllerDelete$Params, context?: HttpContext): Observable<Favorite> {
     return this.favoritesControllerDelete$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Favorite>>): Array<Favorite> => r.body)
+      map((r: StrictHttpResponse<Favorite>): Favorite => r.body)
     );
   }
 

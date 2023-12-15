@@ -13,7 +13,7 @@ export interface CreateCategory$Params {
       body: CreateCategoryDto
 }
 
-export function createCategory(http: HttpClient, rootUrl: string, params: CreateCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Category>>> {
+export function createCategory(http: HttpClient, rootUrl: string, params: CreateCategory$Params, context?: HttpContext): Observable<StrictHttpResponse<Category>> {
   const rb = new RequestBuilder(rootUrl, createCategory.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
@@ -24,7 +24,7 @@ export function createCategory(http: HttpClient, rootUrl: string, params: Create
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Category>>;
+      return r as StrictHttpResponse<Category>;
     })
   );
 }

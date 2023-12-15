@@ -21,10 +21,10 @@ export class ViewRecordController {
 
   @Post()
   @ApiBody({ type: CreateViewRecordDto })
-  @ApiOkResponse({ type: [ViewRecord] })
+  @ApiOkResponse({ type: ViewRecord })
   async create(@Body() createViewRecordDto: CreateViewRecordDto) {
     const res = await this.viewRecordService.create(createViewRecordDto);
-    return res;
+    return res[0];
   }
 
   @Get()
@@ -35,28 +35,27 @@ export class ViewRecordController {
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: [ViewRecord] })
+  @ApiOkResponse({ type: ViewRecord })
   async getOne(@Param('id', ParseIntPipe) id: number) {
     const res = await this.viewRecordService.findOneById(id);
-    return res;
+    return res[0];
   }
 
   @Patch(':id')
   @ApiBody({ type: UpdateViewRecordDto })
-  @ApiOkResponse({ type: [ViewRecord] })
+  @ApiOkResponse({ type: ViewRecord })
   async updateOne(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateViewRecordDto: UpdateViewRecordDto
   ) {
     const res = await this.viewRecordService.update(id, updateViewRecordDto);
-    console.log(res);
-    return res;
+    return res[0];
   }
 
   @Delete(':id')
-  @ApiOkResponse({ type: [ViewRecord] })
+  @ApiOkResponse({ type: ViewRecord })
   async deleteOne(@Param('id', ParseIntPipe) id: number) {
     const res = await this.viewRecordService.delete(id);
-    return res;
+    return res[0];
   }
 }
