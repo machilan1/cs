@@ -58,6 +58,46 @@
         ]
       }
     },
+    "/auth/me": {
+      "get": {
+        "operationId": "findMe",
+        "summary": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/changeRole": {
+      "post": {
+        "operationId": "Change user's role",
+        "summary": "",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
     "/category": {
       "post": {
         "operationId": "createCategory",
@@ -1399,6 +1439,21 @@
         },
         "required": [
           "jwt"
+        ]
+      },
+      "ChangeRoleDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "number"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userId",
+          "role"
         ]
       },
       "CreateCategoryDto": {

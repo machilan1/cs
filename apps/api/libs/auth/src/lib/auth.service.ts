@@ -33,7 +33,17 @@ export class AuthService {
       }
       const secret = this.encrypt(signUpDto.password);
       const newUser = { ...signUpDto, password: secret } satisfies LoginDto;
-      return this.conn.insert(user).values(newUser);
+
+      const [data] = await this.userService.create(newUser);
+
+      const jwt = await this.jwtService.signAsync(
+        { user: data },
+        {
+          privateKey: this.configService.get('JWT_SECRET'),
+        }
+      );
+
+      return { jwt };
     } catch (err) {
       return new BadRequestException(err);
     }
