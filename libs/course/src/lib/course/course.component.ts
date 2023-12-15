@@ -40,17 +40,27 @@ import { CourseStateService } from './services/course-state.service';
         <div class="w-full h-full grid grid-cols-[5fr_1fr] gap-8 pt-4">
           <div>
             <img class="w-full aspect-video rounded-md" />
-            <div class="text-lg font-semibold pt-4">course name</div>
-            <div class="text-base line-clamp-3">course description</div>
-            <div class="text-base">course teacher</div>
+            <div class="text-lg font-semibold pt-4">
+              {{ courseSignal().data?.name }}
+            </div>
+            <div class="text-base line-clamp-3">
+              {{ courseSignal().data?.description }}
+            </div>
+            <div class="text-base">
+              {{ courseSignal().data?.teacher?.name }}
+            </div>
           </div>
           <div class="border rounded-md px-4 py-2 flex flex-col">
             <div>課程介紹</div>
 
             @for (video of videosSignal().data; track video.name) {
-              <a class="text-sm pt-2" routerLink="/course-detail">{{
-                video.name
-              }}</a>
+              <a
+                class="text-sm pt-2"
+                [routerLink]="
+                  '/course/' + courseSignal().data?.courseId + '/detail'
+                "
+                >{{ video.name }}</a
+              >
             }
           </div>
         </div>
@@ -69,8 +79,8 @@ export class CourseComponent {
 
   inPlaylist = signal(false);
 
-  courseSignal?: ReturnType<CourseStateService['getCourseById']>['result'];
-  videosSignal?: ReturnType<CourseStateService['getCourseVideos']>['result'];
+  courseSignal!: ReturnType<CourseStateService['getCourseById']>['result'];
+  videosSignal!: ReturnType<CourseStateService['getCourseVideos']>['result'];
 
   @Input()
   set courseId(courseId: string) {

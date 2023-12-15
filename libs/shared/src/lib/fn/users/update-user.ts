@@ -6,15 +6,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OmitTypeClass } from '../../models/omit-type-class';
 import { PickTypeClass } from '../../models/pick-type-class';
+import { User } from '../../models/user';
 
 export interface UpdateUser$Params {
   id: number;
       body: PickTypeClass
 }
 
-export function updateUser(http: HttpClient, rootUrl: string, params: UpdateUser$Params, context?: HttpContext): Observable<StrictHttpResponse<OmitTypeClass>> {
+export function updateUser(http: HttpClient, rootUrl: string, params: UpdateUser$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
   const rb = new RequestBuilder(rootUrl, updateUser.PATH, 'patch');
   if (params) {
     rb.path('id', params.id, {});
@@ -26,7 +26,7 @@ export function updateUser(http: HttpClient, rootUrl: string, params: UpdateUser
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<OmitTypeClass>;
+      return r as StrictHttpResponse<User>;
     })
   );
 }

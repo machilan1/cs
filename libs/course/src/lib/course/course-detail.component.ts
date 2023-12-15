@@ -1,4 +1,13 @@
-import { Component, signal } from '@angular/core';
+import {
+  Component,
+  Injector,
+  Input,
+  inject,
+  runInInjectionContext,
+  signal,
+} from '@angular/core';
+import { DetailStateService } from './services/detail-state.service';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'cs-course-detail',
@@ -9,7 +18,7 @@ import { Component, signal } from '@angular/core';
         <img class="w-full aspect-video rounded-md" />
         <div class="flex justify-between pt-2">
           <div class="flex gap-4 items-center">
-            <div>影片</div>
+            <div>{{ videoSignal().data?.name }}</div>
             @if (inFavorites() === false) {
               <div (click)="addToFavorites()">
                 <svg
@@ -40,22 +49,39 @@ import { Component, signal } from '@angular/core';
               </div>
             }
           </div>
-          <div>4:30 / 7:00</div>
+          <div>4:30 / {{ videoSignal().data?.length }}</div>
         </div>
       </div>
       <div class="border rounded-md px-4 py-2">
         <div>課程介紹</div>
-        <!-- @for() {
-          <div class="text-sm pt-2 cursor-pointer">影片</div>
-    } -->
+        @for (video of videosSignal().data; track video.videoId) {
+          <div class="text-sm pt-2 cursor-pointer">{{ video.name }}</div>
+        }
       </div>
     </div>
   `,
   styles: [``],
-  imports: [],
+  imports: [JsonPipe],
 })
 export class CourseDetailComponent {
+  #injector = inject(Injector);
+  #detailStateService = inject(DetailStateService);
   inFavorites = signal(false);
+
+  videoSignal!: ReturnType<DetailStateService['getVideoById']>['result'];
+  videosSignal!: ReturnType<DetailStateService['getVideos']>['result'];
+
+  @Input()
+  set courseId(courseId: string) {
+    runInInjectionContext(this.#injector, () => {
+      this.videoSignal = this.#detailStateService.getVideoById(
+        Number(courseId),
+      ).result;
+      this.videosSignal = this.#detailStateService.getVideos(
+        Number(courseId),
+      ).result;
+    });
+  }
 
   addToFavorites() {
     this.inFavorites.set(true);

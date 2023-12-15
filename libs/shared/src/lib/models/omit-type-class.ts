@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export interface OmitTypeClass {
-  avatar: string;
+  avatar: string | null;
   createdAt: string;
   email: string;
   name: string;

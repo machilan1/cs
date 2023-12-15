@@ -13,15 +13,15 @@ import { LoginResponse } from './models/responses/login.response';
 import { JwtGuard } from './guards/jwt.guard';
 import { ChangeRoleDto } from './dtos/change-role.dto';
 import { AuthorizationService } from './authorization.service';
-import { User } from '@cs/users';
-import { SignUpResponse } from './models/responses/sign-up.response';
+import { User, UsersService } from '@cs/users';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private authorizationService: AuthorizationService
+    private authorizationService: AuthorizationService,
+    private userService: UsersService
   ) {}
 
   @Post('register')
@@ -41,10 +41,10 @@ export class AuthController {
   @Get('me')
   @UseGuards(JwtGuard)
   @ApiOperation({ operationId: 'findMe' })
-  @ApiOkResponse()
-  async findMe(@Req() req) {
-    const { userId } = req['user']['user'];
-    return { userId };
+  @ApiOkResponse({ type: User })
+  async findMe(@Req() req): Promise<Partial<User>> {
+    const { userId } = req['user'];
+    return this.userService.findOne(userId);
   }
 
   @Post('changeRole')

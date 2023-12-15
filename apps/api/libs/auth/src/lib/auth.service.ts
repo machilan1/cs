@@ -18,14 +18,15 @@ export class AuthService {
     @Inject(PG_CONNECTION) private conn: NodePgDatabase<typeof schema>,
     private configService: ConfigService,
     private jwtService: JwtService,
+
     private userService: UsersService
   ) {}
 
   async signUp(signUpDto: InsertUser) {
     try {
-      const [[a], [b]] = await Promise.all([
-        this.userService.findOntByEmail(signUpDto.email),
-        this.userService.findOntByName(signUpDto.name),
+      const [a, b] = await Promise.all([
+        this.userService.findOneByEmail(signUpDto.email),
+        this.userService.findOneByName(signUpDto.name),
       ]);
       if (a || b) {
         throw new Error('註冊失敗');
@@ -33,7 +34,9 @@ export class AuthService {
 
       const secret = this.encrypt(signUpDto.password);
       const newUser = { ...signUpDto, password: secret } satisfies LoginDto;
-      const [data] = await this.userService.create(newUser);
+
+      const data = await this.userService.create(newUser);
+
       const jwt = await this.jwtService.signAsync(
         { userId: data.userId },
         {
@@ -48,7 +51,7 @@ export class AuthService {
 
   async login(loginDto: LoginDto): Promise<LoginResponse | Error> {
     try {
-      const [user] = await this.userService.findOntByEmail(loginDto.email);
+      const user = await this.userService.findOneByEmail(loginDto.email);
       if (!user) {
         throw new Error(LOGIN_FAIL);
       }
@@ -60,6 +63,7 @@ export class AuthService {
 
       const matches = this.checkPassword(loginDto.password, hash);
       if (!matches) {
+        console.group('Not match');
         throw new Error(LOGIN_FAIL);
       }
 
@@ -72,7 +76,6 @@ export class AuthService {
       if (!jwt) {
         throw new Error(LOGIN_FAIL);
       }
-
       return { jwt };
     } catch (err) {
       return new BadRequestException(err);
@@ -81,13 +84,15 @@ export class AuthService {
 
   // utilities
 
-  private async getUserHash(userId: number) {
-    const [secret] = await this.conn
+  // Get user hash by id
+  async #getUserHash(userId: number) {
+    const secret = await this.conn
       .select({ secret: user.password })
       .from(user)
       .where(eq(user.userId, userId))
       .limit(1);
-    return secret.secret;
+
+    return secret[0].secret;
   }
 
   private encrypt(password: string) {

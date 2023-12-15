@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { AuthStateService } from './../../../../services/auth.service';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormControl,
@@ -69,16 +70,26 @@ import { RouterLink } from '@angular/router';
   styles: [``],
 })
 export class LoginComponent {
+  #authStateService = inject(AuthStateService);
+
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
   });
 
-  submit() {
+  async submit() {
     if (this.form.invalid) {
       alert('資料錯誤，請重新輸入');
       return;
     }
+    await this.#authStateService.login().mutateAsync({
+      email: this.form.value.email!,
+      password: this.form.value.password!,
+    });
+
     console.log(this.form.value);
+    // alert('登入成功');
+    localStorage.getItem('token');
+    console.log(localStorage.getItem('token'));
   }
 }
