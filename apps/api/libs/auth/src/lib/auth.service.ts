@@ -35,6 +35,8 @@ export class AuthService {
       const secret = this.encrypt(signUpDto.password);
       const newUser = { ...signUpDto, password: secret } satisfies LoginDto;
 
+      console.log(secret)
+
       const data = await this.userService.create(newUser);
 
       const jwt = await this.jwtService.signAsync(
